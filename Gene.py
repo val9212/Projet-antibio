@@ -1,7 +1,8 @@
 class GenomeData:
-    def __init__(self, genome_id, genome_name):
+    def __init__(self, genome_id, genome_name, taxon_id):
         self.__genome_id = genome_id
         self.__genome_name = genome_name
+        self.__taxon_id = taxon_id
         self.__antibiotics_data = []
 
     def add_antibiotic_data(self, antibiotic, measurement_value, measurement_unit, resistant_phenotype, laboratory_typing_method):
@@ -21,6 +22,9 @@ class GenomeData:
 
     def get_name(self):
         return self.__genome_name
+
+    def get_taxon_id(self):
+        return self.__taxon_id
 
     def __str__(self):
         return (f"{self.__genome_id}")

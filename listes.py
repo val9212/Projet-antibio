@@ -3,7 +3,7 @@ from Gene import *
 
 genome_id_set = set()
 antibiotics_set = set()
-with open('C:/Users/val92/PycharmProjects/Projet-antibio/data/genome_AMR.csv', mode='r') as csvfile:
+with open('./data/genome_AMR.txt', mode='r') as csvfile:
     reader = csv.DictReader(csvfile, delimiter='\t')
     raw_data = [line for line in reader]
 
@@ -19,7 +19,8 @@ for record in raw_data:
     if gid not in genome_objects:
         genome_objects[gid] = GenomeData(
             genome_id=gid,
-            genome_name=record['genome_name']
+            genome_name=record['genome_name'],
+            taxon_id=record['taxon_id']
         )
 
 
@@ -34,7 +35,7 @@ for record in raw_data:
 
 def to_table(genome_objects, antibiotics):
     # Les en-têtes seront 'genome_id', 'genome_name', suivis des antibiotiques
-    headers = ['genome_id', 'genome_name'] + antibiotics
+    headers = ['genome_id', 'genome_name', 'taxon_id'] + antibiotics
 
     # Initialiser un dictionnaire pour stocker les données
     data = {gid: {antibiotic: 'NA' for antibiotic in antibiotics} for gid in genome_objects}
@@ -42,6 +43,7 @@ def to_table(genome_objects, antibiotics):
     # Remplir le dictionnaire avec les valeurs de résistance
     for gid in genome_objects:
         data[gid]['genome_name'] = genome_objects[gid].get_name()
+        data[gid]['taxon_id'] = genome_objects[gid].get_taxon_id()
         info_antibio = genome_objects[gid].get_antibiotics_data()
         for antibiotic_data in info_antibio:
             antibiotic = antibiotic_data['antibiotic']
@@ -53,7 +55,7 @@ def to_table(genome_objects, antibiotics):
                     data[gid][antibiotic] = antibiotic_data['resistant_phenotype']
 
     # Écrire les données dans un fichier CSV
-    with open("C:/Users/val92/PycharmProjects/Projet-antibio/table.csv", mode='w', newline='') as file:
+    with open("./table.csv", mode='w', newline='') as file:
         writer = csv.DictWriter(file, fieldnames=headers)
         writer.writeheader()
         for gid in genome_objects:
