@@ -1,0 +1,202 @@
+---
+title: "Untitled"
+output: html_document
+date: "2024-03-06"
+---
+```{r}
+data <- read.csv('C:/Users/Valentin/PycharmProjects/Projet-antibio/table.csv')
+```
+
+
+Tableau de sortie : 
+Nombre de génomes testées 
+```{r}
+nombre_genomes <- nrow(data) - 1
+nombre_genomes
+```
+Nombre d'espèces :
+```{r}
+nombre_especes_uniques <- length(unique(data$taxon_id))
+nombre_especes_uniques
+```
+
+Nombre d'antibiotiques : 
+```{r}
+nombre_antibiotiques <- ncol(data) - 3
+nombre_antibiotiques
+```
+
+Nombre de génomes pour chaque taxon :
+```{r}
+comptage_genomes <- aggregate(genome_id ~ taxon_id, data = data, FUN = function(x) length(unique(x)))
+
+names(comptage_genomes) <- c("taxon_id", "nombre_genomes")
+comptage_genomes
+```
+
+
+
+Nombre d'antibiotiques testés pour chaque taxons :
+
+```{r}
+#Obtenir la liste des taxons_id différents
+taxons_ids <- unique(data$taxon_id)
+
+# Initialiser un vecteur pour stocker le nombre d'antibiotiques testés pour chaque taxon_id
+nombre_antibiotiques_testes <- numeric(length(taxons_ids))
+
+# Parcourir chaque taxon_id
+for (i in seq_along(taxons_ids)) {
+  # Extraire les lignes correspondant au taxon_id actuel
+  subset_data <- data[data$taxon_id == taxons_ids[i], ]
+  
+  # Initialiser un vecteur pour stocker les résultats pour chaque colonne
+  resultats_colonnes <- logical(ncol(subset_data) - 3)
+  
+  # Parcourir chaque colonne de la 4ème à la dernière
+  for (j in 4:ncol(subset_data)) {
+    # Vérifier si au moins un élément de la colonne est différent de NA
+    resultats_colonnes[j - 3] <- any(!is.na(subset_data[, j]))
+  }
+  
+  # Ajouter 1 au nombre d'antibiotiques testés si au moins une colonne a un élément non-NA
+  nombre_antibiotiques_testes[i] <- sum(resultats_colonnes)
+}
+
+# Créer un data.frame contenant les résultats
+resultats <- data.frame(taxon_id = taxons_ids, nombre_antibiotiques_testes = nombre_antibiotiques_testes)
+
+# Afficher les résultats
+print(resultats)
+```
+
+Moyenne et médiane du nombre d'antibiotiques testés pour chaque taxons
+
+```{r}
+# Calculer la moyenne et la médiane
+moyenne <- mean(resultats$nombre_antibiotiques_testes)
+mediane <- median(resultats$nombre_antibiotiques_testes)
+
+# Afficher la moyenne et la médiane
+print(paste("Moyenne :", moyenne))
+print(paste("Médiane :", mediane))
+```
+
+
+```{r}
+library(ggplot2)
+```
+
+
+
+```{r}
+comptage_genomes_filtre <- comptage_genomes[comptage_genomes$nombre_genomes > 1,]
+
+comptage_genomes_filtre$taxon_id <- factor(comptage_genomes_filtre$taxon_id)
+
+
+ggplot(comptage_genomes_filtre, aes(x = taxon_id, y = nombre_genomes)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(title = "Nombre de Génomes par Taxon ID (Filtré)",
+       x = "Taxon ID",
+       y = "Nombre de Génomes") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) 
+```
+
+
+
+
+```{r}
+resultats_filtres <- resultats[resultats$nombre_antibiotiques_testes >= 20, ]
+# Créer un graphique à barres avec espacement entre les taxons_id
+ggplot(resultats_filtres, aes(x = factor(taxon_id), y = nombre_antibiotiques_testes)) +
+  geom_bar(stat = "identity", fill = "skyblue", width = 0.7, ) +
+  labs(x = "taxon_id", y = "Nombre d'antibiotiques testés") +
+  ggtitle("Nombre d'antibiotiques testés par taxon_id") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+```
+
+```{r}
+library(tidyr)
+library(dplyr)
+
+
+antibiotiques <- names(data)[4:ncol(data)]
+
+donnees_longues <- pivot_longer(
+  data,
+  cols = all_of(antibiotiques),  # Remplacez ceci par la liste réelle des antibiotiques ou une fonction de sélection appropriée
+  names_to = "antibiotique",
+  values_to = "resultat",
+  values_drop_na = TRUE  # Exclure les NA si vous ne voulez pas les représenter
+)
+
+donnees_longues$taxon_id <- as.character(donnees_longues$taxon_id)
+
+donnees_longues <- donnees_longues %>%
+  mutate(resultat = case_when(
+    resultat == "Intermediate" | resultat == "IS" | resultat == "Susceptible-dose dependent" ~ "Susceptible",
+    TRUE ~ as.character(resultat)  # Gardez les autres valeurs telles quelles
+  ))
+
+taxons_frequents <- donnees_longues %>%
+  group_by(taxon_id) %>%
+  summarise(n_tests = n_distinct(antibiotique)) %>%
+  filter(n_tests > 21)
+
+# Filtrer les données longues pour ne conserver que les taxons répondant au critère.
+donnees_filtrees <- donnees_longues %>%
+  filter(taxon_id %in% taxons_frequents$taxon_id)
+
+# Créer la heatmap avec les données filtrées.
+ggplot(donnees_filtrees, aes(x = antibiotique, y = taxon_id, fill = resultat)) +
+  geom_tile() + # Utilise les cases pour représenter les données
+  scale_fill_viridis_d() + # Utilise une palette de couleurs pour des données discrètes
+  labs(title = "Heatmap des Résultats des Tests d'Antibiotiques par Taxon ID ( 21 antibiots testés)",
+       x = "Antibiotique",
+       y = "Taxon ID") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 3), axis.text.y = element_text(size = 4))# Rotation des étiquettes pour la lisibilité
+  
+```
+```{r}
+taxons_frequents <- donnees_longues %>%
+  group_by(taxon_id) %>%
+  summarise(n_tests = n_distinct(antibiotique)) %>%
+  filter(n_tests > 1)
+
+# Filtrer les données longues pour ne conserver que les taxons répondant au critère.
+donnees_filtrees <- donnees_longues %>%
+  filter(taxon_id %in% taxons_frequents$taxon_id)
+
+# Créer la heatmap avec les données filtrées.
+ggplot(donnees_filtrees, aes(x = antibiotique, y = taxon_id, fill = resultat)) +
+  geom_tile() + # Utilise les cases pour représenter les données
+  scale_fill_viridis_d() + # Utilise une palette de couleurs pour des données discrètes
+  labs(title = "Heatmap des Résultats des Tests d'Antibiotiques par Taxon ID (global)",
+       x = "Antibiotique",
+       y = "Taxon ID") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 3), axis.text.y = element_text(size = 0))# Rotation des étiquettes pour la lisibilité
+  
+```
+
+```{r}
+total_data_error <- donnees_longues %>%
+  filter(resultat == "DATA_ERROR") %>%
+  summarise(count = n())
+print(total_data_error)
+```
+
+```{r}
+data_error_par_taxon <- donnees_longues %>%
+  filter(resultat == "DATA_ERROR") %>%
+  group_by(taxon_id) %>%
+  summarise(count = n()) %>%
+  ungroup()
+print(data_error_par_taxon)
+```
+
+
