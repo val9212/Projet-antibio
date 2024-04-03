@@ -20,15 +20,58 @@ if __name__ == '__main__':
     result = methods.unique_genus(genus_liste)
     print(len(result), result)"""
 
-    argannot = "C:/Users/val92/PycharmProjects/Projet-antibio/data/db/argannot/sequences"
-    card = "C:/Users/val92/PycharmProjects/Projet-antibio/data/db/card/sequences"
-    ecoh = "C:/Users/val92/PycharmProjects/Projet-antibio/data/db/ecoh/sequences"
-    ecoli_vf = "C:/Users/val92/PycharmProjects/Projet-antibio/data/db/ecoli_vf/sequences"
-    megares = "C:/Users/val92/PycharmProjects/Projet-antibio/data/db/megares/sequences"
-    ncbi = "C:/Users/val92/PycharmProjects/Projet-antibio/data/db/ncbi/sequences"
-    plasmidfinder = "C:/Users/val92/PycharmProjects/Projet-antibio/data/db/pasmidfinder/sequences"
-    resfinder = "C:/Users/val92/PycharmProjects/Projet-antibio/data/db/resfinder/sequences"
-    vfdb = "C:/Users/val92/PycharmProjects/Projet-antibio/data/db/vfdb/sequences"
+    argannot = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/argannot/sequences"#argannot ok
+    card = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/card/sequences" #card ok
+    ecoh = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/ecoh/sequences" #echo ok
+    ecoli_vf = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/ecoli_vf/sequences" #?
+    megares = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/megares/sequences" #ecoh ok
+    ncbi = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/ncbi/sequences" #ecoh ok
+    plasmidfinder = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/plasmidfinder/sequences" #?
+    resfinder = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/resfinder/sequences" #card ok
+    vfdb = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/vfdb/sequences" #echo no
 
+
+    liste_antibio = []
     header_argannot = methods.get_header(argannot)
-    print(header_argannot)
+    x = methods.get_anti(header_argannot, "argannot")
+    y =sorted(x)
+    liste_antibio.append(y)
+    header_card = methods.get_header(card)
+    x = methods.get_anti(header_card, "card")
+    y =sorted(x)
+    liste_antibio.append(y)
+    header_ncbi = methods.get_header(ncbi)
+    x = methods.get_anti(header_ncbi, "ecoh")
+    liste = []
+    for i in x:
+        y = methods.trouver_mot_cle(i)
+        if y is None:
+            print(i)
+        liste.append(y)
+    y = sorted(liste)
+    liste_antibio.append(y)
+    header_resfinder = methods.get_header(resfinder)
+    x = methods.get_anti(header_resfinder, "card")
+    liste_antibio.append(x)
+
+    liste_dico = []
+    for i in liste_antibio:
+
+        z = methods.normalize_antibiotic_names(i)
+        g = methods.present_elements(z)
+        n = methods.count_element(z)
+        count = 0
+        for j in n:
+            count += n[j]
+
+        liste_dico.append(g)
+
+    dico_argannot = liste_dico[0]
+    dico_card = liste_dico[1]
+    dico_ncbi = liste_dico[2]
+    dico_resfinder = liste_dico[3]
+
+    Inout.create_csv_from_dicts(dico_argannot, dico_card, dico_ncbi, dico_resfinder, "antibiotiques_db.csv")
+
+
+

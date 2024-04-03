@@ -1,5 +1,6 @@
 import csv
 from GData import *
+import pandas as pd
 
 class Inout():
     @classmethod
@@ -87,4 +88,21 @@ class Inout():
         except IOError as e:
             # Handle the error and print an error message
             print(f"An error occurred: {e.strerror}")
+
+    @classmethod
+    def create_csv_from_dicts(cls, dict1, dict2, dict3, dict4, output_file):
+        df1 = pd.DataFrame(list(dict1.items()), columns=['Antibiotique', 'Argannot'])
+        df2 = pd.DataFrame(list(dict2.items()), columns=['Antibiotique', 'card'])
+        df3 = pd.DataFrame(list(dict3.items()), columns=['Antibiotique', 'ncbi'])
+        df4 = pd.DataFrame(list(dict4.items()), columns=['Antibiotique', 'resfinder'])
+
+        df = pd.merge(df1, df2, on='Antibiotique', how='outer')
+        df = pd.merge(df, df3, on='Antibiotique', how='outer')
+        df = pd.merge(df, df4, on='Antibiotique', how='outer')
+
+        df.fillna(0, inplace=True)
+        df.to_csv(output_file, index=False)
+
+        print(f"Fichier CSV '{output_file}' créé avec succès !")
+
 
