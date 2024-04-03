@@ -223,6 +223,7 @@ total_data_error <- all_data %>%
 print(total_data_error)
 ```
 
+
 ```{r}
 data_error_par_taxon <- all_data %>%
   filter(resultat == "DATA_ERROR") %>%
@@ -232,4 +233,15 @@ data_error_par_taxon <- all_data %>%
 print(data_error_par_taxon)
 ```
 
+```{r}
+data <- read.csv("C:/Users/Valentin/PycharmProjects/Projet-antibio/antibiotiques_db.csv")
+data$Argannot <- as.integer(data$Argannot)
+data$card <- as.integer(data$card)
+data$ncbi <- as.integer(data$ncbi)
+data$resfinder <- as.integer(data$resfinder)
+
+
+# Créer l'upset plot
+upset(data)
+```
 
