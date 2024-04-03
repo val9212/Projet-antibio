@@ -1,4 +1,5 @@
 from requester import *
+import re
 
 class methods():
 
@@ -22,3 +23,21 @@ class methods():
             genus_list.append(f)
             i += n
         return genus_list
+
+    @classmethod
+    def get_header(cls, file):
+        headers = []
+        with open(file, 'r') as fasta_file:
+            for line in fasta_file:
+                if line.startswith('>'):
+                    headers.append(line.strip())
+
+        return headers
+
+class db():
+    @classmethod
+    get
+
+
+
+
