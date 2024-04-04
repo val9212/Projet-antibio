@@ -240,8 +240,15 @@ data$card <- as.integer(data$card)
 data$ncbi <- as.integer(data$ncbi)
 data$resfinder <- as.integer(data$resfinder)
 
-
-# Créer l'upset plot
 upset(data)
 ```
 
+```{r}
+data <- read.csv("C:/Users/Valentin/PycharmProjects/Projet-antibio/class_db.csv")
+data$Argannot <- as.integer(data$Argannot)
+data$card <- as.integer(data$card)
+data$ncbi <- as.integer(data$ncbi)
+data$resfinder <- as.integer(data$resfinder)
+
+upset(data)
+```

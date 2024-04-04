@@ -55,16 +55,20 @@ if __name__ == '__main__':
     liste_antibio.append(x)
 
     liste_dico = []
+    liste_dico_class = []
     for i in liste_antibio:
 
         z = methods.normalize_antibiotic_names(i)
+        f = methods.get_anti_class(z)
         g = methods.present_elements(z)
+        h = methods.present_elements(f)
         n = methods.count_element(z)
         count = 0
         for j in n:
             count += n[j]
 
         liste_dico.append(g)
+        liste_dico_class.append(h)
 
     dico_argannot = liste_dico[0]
     dico_card = liste_dico[1]
@@ -72,6 +76,13 @@ if __name__ == '__main__':
     dico_resfinder = liste_dico[3]
 
     Inout.create_csv_from_dicts(dico_argannot, dico_card, dico_ncbi, dico_resfinder, "antibiotiques_db.csv")
+
+    dico_argannot = liste_dico_class[0]
+    dico_card = liste_dico_class[1]
+    dico_ncbi = liste_dico_class[2]
+    dico_resfinder = liste_dico_class[3]
+
+    Inout.create_csv_from_dicts(dico_argannot, dico_card, dico_ncbi, dico_resfinder, "class_db.csv")
 
 
 
