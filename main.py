@@ -6,10 +6,12 @@ from all import *
 # programme principal
 if __name__ == '__main__':
 
+    # lire la DB de PATRICK
+    genome_objects, antibiotics = Inout.read_file("./data/genome_AMR.txt")
+    Inout.to_table(genome_objects, antibiotics)
 
-    """genome_objects, antibiotics = Inout.read_file("./data/genome_AMR.txt")
-
-    listes = []
+    """listes = [] 
+    # ARBRE phylogenetic (transformation des taxons ID en GENUS)
     for i in genome_objects:
         integer_part = i.split('.')[0]
         listes.append(int(integer_part))
@@ -20,7 +22,8 @@ if __name__ == '__main__':
     result = methods.unique_genus(genus_liste)
     print(len(result), result)"""
 
-    argannot = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/argannot/sequences"#argannot ok
+    #lire les DB abricate
+    """argannot = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/argannot/sequences"#argannot ok
     card = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/card/sequences" #card ok
     ecoh = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/ecoh/sequences" #echo ok
     ecoli_vf = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/ecoli_vf/sequences" #?
@@ -54,8 +57,10 @@ if __name__ == '__main__':
     x = methods.get_anti(header_resfinder, "card")
     liste_antibio.append(x)
 
+    name = ["argannot", "card", "ncbi", "resfinder"]
     liste_dico = []
     liste_dico_class = []
+    e = 0
     for i in liste_antibio:
 
         z = methods.normalize_antibiotic_names(i)
@@ -64,11 +69,9 @@ if __name__ == '__main__':
         h = methods.present_elements(f)
         n = methods.count_element(z)
         count = 0
-        for j in n:
-            count += n[j]
 
-        liste_dico.append(g)
-        liste_dico_class.append(h)
+        print(f"{name[e]}\n{n}'")
+        e+=1
 
     dico_argannot = liste_dico[0]
     dico_card = liste_dico[1]
@@ -82,7 +85,10 @@ if __name__ == '__main__':
     dico_ncbi = liste_dico_class[2]
     dico_resfinder = liste_dico_class[3]
 
-    Inout.create_csv_from_dicts(dico_argannot, dico_card, dico_ncbi, dico_resfinder, "class_db.csv")
+    Inout.create_csv_from_dicts(dico_argannot, dico_card, dico_ncbi, dico_resfinder, "class_db.csv")"""
+
+    #faire un tableau qui compte le nombre de genome testé et son resultat
+    methods.count_table("./results/table2.csv")
 
 
 

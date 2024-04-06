@@ -1,5 +1,6 @@
 from requester import *
 import re
+import csv
 
 class methods():
 
@@ -358,3 +359,43 @@ class methods():
                 class_list.append(name)
 
         return class_list
+
+    @classmethod
+    def count_table(cls, fichier_csv):
+        antibiotiques = {}
+
+        with open(fichier_csv, 'r') as csv_file:
+            lecteur_csv = csv.DictReader(csv_file)
+
+            for ligne in lecteur_csv:
+                for colonne, valeur in ligne.items():
+                    if colonne != 'genome_id' and colonne != 'genome_name' and colonne != 'taxon_id':
+                        if colonne in antibiotiques:
+                            if valeur == 'Resistant' or valeur == "Nonsusceptible":
+                                antibiotiques[colonne][0] += 1
+                            elif valeur == 'Susceptible' or valeur == "IS" or valeur == "Susceptible-dose dependent":
+                                antibiotiques[colonne][1] += 1
+                            elif valeur == 'Intermediate' or valeur == "Reduced Susceptibility":
+                                antibiotiques[colonne][2] += 1
+                            elif valeur == 'DATA_ERROR':
+                                antibiotiques[colonne][3] += 1
+
+                        else:
+                            if valeur == 'Resistant' or valeur == "Nonsusceptible":
+                                antibiotiques[colonne] = [1, 0, 0, 0]
+                            elif valeur == 'Susceptible' or valeur == "IS" or valeur == "Susceptible-dose dependent":
+                                antibiotiques[colonne] = [0, 1, 0, 0]
+                            elif valeur == 'Intermediate' or valeur == "Reduced Susceptibility":
+                                antibiotiques[colonne] = [0, 0, 1, 0]
+                            elif valeur == 'DATA_ERROR':
+                                antibiotiques[colonne] = [0, 0, 0, 1]
+
+        tableau_resultats = [["Antibiotique", "#R", "#S", "#I", "#DATA_ERROR"]]
+
+        for antibiotique, compteurs in antibiotiques.items():
+            tableau_resultats.append([antibiotique, str(compteurs[0]), str(compteurs[1]), str(compteurs[2]), str(compteurs[3])])
+
+        with open("test.txt", 'w') as file:
+            for data in tableau_resultats:
+                file.write('\t'.join(data))
+                file.write('\n')

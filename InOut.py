@@ -37,11 +37,11 @@ class Inout():
                 resistant_phenotype=record['resistant_phenotype'] if 'resistant_phenotype' in record else None,
                 laboratory_typing_method=record['laboratory_typing_method']
             )
-
+        print(len(antibiotics_set))
         return genome_objects, list(antibiotics_set)
 
     @classmethod
-    def to_table(cls, genome_objects, antibiotics, path = "./results/table.csv"):
+    def to_table(cls, genome_objects, antibiotics, path = "./results/table2.csv"):
         # Les en-têtes
         headers = ['genome_id', 'genome_name', 'taxon_id'] + antibiotics
 
