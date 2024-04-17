@@ -1,0 +1,119 @@
+genome_id	genome_name	taxon_id	antibiotic	resistant_phenotype	measurement	measurement_sign	measurement_value	measurement_unit	laboratory_typing_method	laboratory_typing_method_version	laboratory_typing_platform	vendor	testing_standard	testing_standard_year	source
+32002.4	Achromobacter denitrificans strain USDA-ARS-USMARC-56712	32002	ampicillin		==16	==	16	mg/L	Broth dilution		Sensititre	Trek Diagnostic Systems	CLSI
+32002.4	Achromobacter denitrificans strain USDA-ARS-USMARC-56712	32002	ceftiofur		>8	>	8	mg/L	Broth dilution		Sensititre	Trek Diagnostic Systems	CLSI
+32002.4	Achromobacter denitrificans strain USDA-ARS-USMARC-56712	32002	chlortetracycline		==8	==	8	mg/L	Broth dilution		Sensititre	Trek Diagnostic Systems	CLSI
+32002.4	Achromobacter denitrificans strain USDA-ARS-USMARC-56712	32002	clindamycin		>16	>	16	mg/L	Broth dilution		Sensititre	Trek Diagnostic Systems	CLSI
+32002.4	Achromobacter denitrificans strain USDA-ARS-USMARC-56712	32002	danofloxacin		==1	==	1	mg/L	Broth dilution		Sensititre	Trek Diagnostic Systems	CLSI
+32002.4	Achromobacter denitrificans strain USDA-ARS-USMARC-56712	32002	enrofloxacin		==1	==	1	mg/L	Broth dilution		Sensititre	Trek Diagnostic Systems	CLSI
+32002.4	Achromobacter denitrificans strain USDA-ARS-USMARC-56712	32002	florfenicol		==8	==	8	mg/L	Broth dilution		Sensititre	Trek Diagnostic Systems	CLSI
+32002.4	Achromobacter denitrificans strain USDA-ARS-USMARC-56712	32002	gentamicin		>16	>	16	mg/L	Broth dilution		Sensititre	Trek Diagnostic Systems	CLSI
+32002.4	Achromobacter denitrificans strain USDA-ARS-USMARC-56712	32002	neomycin		==32	==	32	mg/L	Broth dilution		Sensititre	Trek Diagnostic Systems	CLSI
+32002.4	Achromobacter denitrificans strain USDA-ARS-USMARC-56712	32002	oxytetracycline		>8	>	8	mg/L	Broth dilution		Sensititre	Trek Diagnostic Systems	CLSI
+32002.4	Achromobacter denitrificans strain USDA-ARS-USMARC-56712	32002	penicillin		>8	>	8	mg/L	Broth dilution		Sensititre	Trek Diagnostic Systems	CLSI
+32002.4	Achromobacter denitrificans strain USDA-ARS-USMARC-56712	32002	spectinomycin		>64	>	64	mg/L	Broth dilution		Sensititre	Trek Diagnostic Systems	CLSI
+32002.4	Achromobacter denitrificans strain USDA-ARS-USMARC-56712	32002	sulfadimethoxine		<=256	<=	256	mg/L	Broth dilution		Sensititre	Trek Diagnostic Systems	CLSI
+32002.4	Achromobacter denitrificans strain USDA-ARS-USMARC-56712	32002	tiamulin		>32	>	32	mg/L	Broth dilution		Sensititre	Trek Diagnostic Systems	CLSI
+32002.4	Achromobacter denitrificans strain USDA-ARS-USMARC-56712	32002	tilmicosin		>64	>	64	mg/L	Broth dilution		Sensititre	Trek Diagnostic Systems	CLSI
+32002.4	Achromobacter denitrificans strain USDA-ARS-USMARC-56712	32002	trimethoprim/sulfamethoxazole		<=2/38	<=	2/38	mg/L	Broth dilution		Sensititre	Trek Diagnostic Systems	CLSI
+32002.4	Achromobacter denitrificans strain USDA-ARS-USMARC-56712	32002	tulathromycin		>64	>	64	mg/L	Broth dilution		Sensititre	Trek Diagnostic Systems	CLSI
+32002.4	Achromobacter denitrificans strain USDA-ARS-USMARC-56712	32002	tylosin		>32	>	32	mg/L	Broth dilution		Sensititre	Trek Diagnostic Systems	CLSI
+134375.50	Achromobacter sp. strain 34	134375	amikacin	Susceptible	19	==	19	mm	Disk diffusion			BD	CLSI
+134375.50	Achromobacter sp. strain 34	134375	amikacin	Intermediate	32	==	32	mg/L	Broth dilution		VITEK 2	BioMerieux	CLSI
+134375.50	Achromobacter sp. strain 34	134375	aztreonam	Intermediate	17	==	17	mm	Disk diffusion			BD	CLSI
+134375.50	Achromobacter sp. strain 34	134375	cefepime	Susceptible	20	==	20	mm	Disk diffusion			BD	CLSI
+134375.50	Achromobacter sp. strain 34	134375	cefepime	Resistant	64	>=	64	mg/L	Broth dilution		VITEK 2	BioMerieux	CLSI
+134375.50	Achromobacter sp. strain 34	134375	ceftazidime	Susceptible	20	==	20	mm	Disk diffusion			BD	CLSI
+134375.50	Achromobacter sp. strain 34	134375	ceftazidime	Resistant	32	==	32	mg/L	Broth dilution		VITEK 2	BioMerieux	CLSI
+134375.50	Achromobacter sp. strain 34	134375	ceftriaxone	Resistant	64	>=	64	mg/L	Broth dilution		VITEK 2	BioMerieux	CLSI
+134375.50	Achromobacter sp. strain 34	134375	ciprofloxacin	Resistant	6	==	6	mm	Disk diffusion			BD	CLSI
+134375.50	Achromobacter sp. strain 34	134375	ciprofloxacin	Resistant	4	>=	4	mg/L	Broth dilution		VITEK 2	BioMerieux	CLSI
+134375.50	Achromobacter sp. strain 34	134375	colistin	Susceptible	15	==	15	mm	Disk diffusion			BD	CLSI
+134375.50	Achromobacter sp. strain 34	134375	gentamicin	Susceptible	17	==	17	mm	Disk diffusion			BD	CLSI
+134375.50	Achromobacter sp. strain 34	134375	gentamicin	Intermediate	8	==	8	mg/L	Broth dilution		VITEK 2	BioMerieux	CLSI
+134375.50	Achromobacter sp. strain 34	134375	levofloxacin	Resistant	6	==	6	mm	Disk diffusion			BD	CLSI
+134375.50	Achromobacter sp. strain 34	134375	levofloxacin	Intermediate	4	==	4	mg/L	Broth dilution		VITEK 2	BioMerieux	CLSI
+134375.50	Achromobacter sp. strain 34	134375	meropenem	Resistant	6	==	6	mm	Disk diffusion			BD	CLSI
+134375.50	Achromobacter sp. strain 34	134375	meropenem	Susceptible	0.25	<=	0.25	mg/L	Broth dilution		VITEK 2	BioMerieux	CLSI
+134375.50	Achromobacter sp. strain 34	134375	piperacillin	Susceptible	21	==	21	mm	Disk diffusion			BD	CLSI
+134375.50	Achromobacter sp. strain 34	134375	piperacillin/tazobactam	Intermediate	64/4	==	64/4	mg/L	Broth dilution		VITEK 2	BioMerieux	CLSI
+134375.50	Achromobacter sp. strain 34	134375	tetracycline	Resistant	16	>=	16	mg/L	Broth dilution		VITEK 2	BioMerieux	CLSI
+134375.50	Achromobacter sp. strain 34	134375	tobramycin	Susceptible	21	==	21	mm	Disk diffusion			BD	CLSI
+134375.50	Achromobacter sp. strain 34	134375	tobramycin	Intermediate	8	==	8	mg/L	Broth dilution		VITEK 2	BioMerieux	CLSI
+134375.50	Achromobacter sp. strain 34	134375	trimethoprim/sulfamethoxazole	Susceptible	2/38	==	2/38	mg/L	Broth dilution		VITEK 2	BioMerieux	CLSI
+1310800.122	Acinetobacter baumannii 1000160	1310800	imipenem	Susceptible									CLSI	2008
+1310784.3	Acinetobacter baumannii 1007214	1310784	carbapenem	Susceptible
+1310784.3	Acinetobacter baumannii 1007214	1310784	imipenem	Susceptible									CLSI	2008
+1310751.3	Acinetobacter baumannii 1022959	1310751	carbapenem	Resistant
+1310751.3	Acinetobacter baumannii 1022959	1310751	imipenem	Resistant									CLSI	2008
+470.16311	Acinetobacter baumannii 102_an	470	amikacin	Resistant					Disk diffusion			Unipath	CLSI	2011
+470.16311	Acinetobacter baumannii 102_an	470	ceftazidime	Resistant					Disk diffusion			Unipath	CLSI	2011
+470.16311	Acinetobacter baumannii 102_an	470	ceftriaxone	Resistant					Disk diffusion			Unipath	CLSI	2011
+470.16311	Acinetobacter baumannii 102_an	470	ciprofloxacin	Resistant					Disk diffusion			Unipath	CLSI	2011
+470.16311	Acinetobacter baumannii 102_an	470	colistin	Susceptible					Disk diffusion			Unipath	CLSI	2011
+470.16311	Acinetobacter baumannii 102_an	470	gentamicin	Resistant					Disk diffusion			Unipath	CLSI	2011
+470.16311	Acinetobacter baumannii 102_an	470	imipenem		0.75		0.75	mg/L	Broth dilution			Unipath	CLSI	2011
+470.16311	Acinetobacter baumannii 102_an	470	imipenem	Susceptible					Disk diffusion			Unipath	CLSI	2011
+470.16311	Acinetobacter baumannii 102_an	470	piperacillin/tazobactam	Resistant					Disk diffusion			Unipath	CLSI	2011
+1310586.3	Acinetobacter baumannii 1031433	1310586	carbapenem	Resistant
+1310586.3	Acinetobacter baumannii 1031433	1310586	imipenem	Resistant									CLSI	2008
+1310571.3	Acinetobacter baumannii 1032241	1310571	carbapenem	Resistant
+1310571.3	Acinetobacter baumannii 1032241	1310571	imipenem	Resistant									CLSI	2008
+1310572.3	Acinetobacter baumannii 1032359	1310572	carbapenem	Resistant
+1310572.3	Acinetobacter baumannii 1032359	1310572	imipenem	Resistant									CLSI	2008
+1310622.6	Acinetobacter baumannii 1035119	1310622	carbapenem	Susceptible
+1310622.6	Acinetobacter baumannii 1035119	1310622	imipenem	Susceptible									CLSI	2008
+1310554.3	Acinetobacter baumannii 1036938	1310554	carbapenem	Resistant
+1310554.3	Acinetobacter baumannii 1036938	1310554	imipenem	Resistant									CLSI	2008
+1310592.3	Acinetobacter baumannii 1039621	1310592	carbapenem	Resistant
+1310592.3	Acinetobacter baumannii 1039621	1310592	imipenem	Resistant									CLSI	2008
+1310590.3	Acinetobacter baumannii 1040094	1310590	carbapenem	Susceptible
+1310590.3	Acinetobacter baumannii 1040094	1310590	imipenem	Susceptible									CLSI	2008
+1310831.3	Acinetobacter baumannii 1042969-1197	1310831	imipenem	Susceptible									CLSI	2008
+1310574.3	Acinetobacter baumannii 1042969-1265	1310574	imipenem	Resistant									CLSI	2008
+1310564.3	Acinetobacter baumannii 1043794	1310564	carbapenem	Resistant
+1310564.3	Acinetobacter baumannii 1043794	1310564	imipenem	Resistant									CLSI	2008
+1310569.3	Acinetobacter baumannii 1043903	1310569	carbapenem	Resistant
+1310569.3	Acinetobacter baumannii 1043903	1310569	imipenem	Resistant									CLSI	2008
+1310739.3	Acinetobacter baumannii 1045092	1310739	carbapenem	Resistant
+1310739.3	Acinetobacter baumannii 1045092	1310739	imipenem	Resistant									CLSI	2008
+1310570.3	Acinetobacter baumannii 1046051	1310570	carbapenem	Resistant
+1310570.3	Acinetobacter baumannii 1046051	1310570	imipenem	Resistant									CLSI	2008
+1310567.3	Acinetobacter baumannii 1046674	1310567	carbapenem	Resistant
+1310567.3	Acinetobacter baumannii 1046674	1310567	imipenem	Resistant									CLSI	2008
+1310583.3	Acinetobacter baumannii 1051176	1310583	carbapenem	Susceptible
+1310583.3	Acinetobacter baumannii 1051176	1310583	imipenem	Susceptible									CLSI	2008
+1310585.3	Acinetobacter baumannii 1051830	1310585	carbapenem	Resistant
+1310585.3	Acinetobacter baumannii 1051830	1310585	imipenem	Resistant									CLSI	2008
+1310749.3	Acinetobacter baumannii 10519	1310749	carbapenem	Resistant
+1310749.3	Acinetobacter baumannii 10519	1310749	imipenem	Resistant									CLSI	2008
+1310771.3	Acinetobacter baumannii 1058283	1310771	carbapenem	Resistant
+1310771.3	Acinetobacter baumannii 1058283	1310771	imipenem	Resistant									CLSI	2008
+1310725.3	Acinetobacter baumannii 1062314	1310725	carbapenem	Resistant
+1310725.3	Acinetobacter baumannii 1062314	1310725	imipenem	Resistant									CLSI	2008
+1310750.3	Acinetobacter baumannii 1064293_45	1310750	carbapenem	Susceptible
+1310750.3	Acinetobacter baumannii 1064293_45	1310750	imipenem	Susceptible									CLSI	2008
+1310825.3	Acinetobacter baumannii 1064293_46	1310825	carbapenem	Resistant
+1310825.3	Acinetobacter baumannii 1064293_46	1310825	imipenem	Resistant									CLSI	2008
+1310596.3	Acinetobacter baumannii 1075025	1310596	carbapenem	Resistant
+1310596.3	Acinetobacter baumannii 1075025	1310596	imipenem	Resistant									CLSI	2008
+1310747.3	Acinetobacter baumannii 1095464	1310747	carbapenem	Resistant
+1310747.3	Acinetobacter baumannii 1095464	1310747	imipenem	Resistant									CLSI	2008
+1310657.3	Acinetobacter baumannii 1096934	1310657	carbapenem	Susceptible
+1310657.3	Acinetobacter baumannii 1096934	1310657	imipenem	Susceptible									CLSI	2008
+470.16294	Acinetobacter baumannii 10_n	470	amikacin	Resistant					Disk diffusion			Unipath	CLSI	2011
+470.16294	Acinetobacter baumannii 10_n	470	ceftazidime	Resistant					Disk diffusion			Unipath	CLSI	2011
+470.16294	Acinetobacter baumannii 10_n	470	ceftriaxone	Resistant					Disk diffusion			Unipath	CLSI	2011
+470.16294	Acinetobacter baumannii 10_n	470	ciprofloxacin	Resistant					Disk diffusion			Unipath	CLSI	2011
+470.16294	Acinetobacter baumannii 10_n	470	colistin	Susceptible					Disk diffusion			Unipath	CLSI	2011
+470.16294	Acinetobacter baumannii 10_n	470	gentamicin	Resistant					Disk diffusion			Unipath	CLSI	2011
+470.16294	Acinetobacter baumannii 10_n	470	imipenem		0.75		0.75	mg/L	Broth dilution			Unipath	CLSI	2011
+470.16294	Acinetobacter baumannii 10_n	470	imipenem	Susceptible					Disk diffusion			Unipath	CLSI	2011
+470.16294	Acinetobacter baumannii 10_n	470	piperacillin/tazobactam	Resistant					Disk diffusion			Unipath	CLSI	2011
+1310659.3	Acinetobacter baumannii 1106579	1310659	carbapenem	Susceptible
+1310659.3	Acinetobacter baumannii 1106579	1310659	imipenem	Susceptible									CLSI	2008
+1310648.4	Acinetobacter baumannii 110912	1310648	imipenem	Resistant									CLSI	2008
+470.16313	Acinetobacter baumannii 110_n	470	amikacin	Susceptible					Disk diffusion			Unipath	CLSI	2011
+470.16313	Acinetobacter baumannii 110_n	470	ceftazidime	Resistant					Disk diffusion			Unipath	CLSI	2011
+470.16313	Acinetobacter baumannii 110_n	470	ceftriaxone	Resistant					Disk diffusion			Unipath	CLSI	2011
+470.16313	Acinetobacter baumannii 110_n	470	ciprofloxacin	Resistant					Disk diffusion			Unipath	CLSI	2011
+470.16313	Acinetobacter baumannii 110_n	470	colistin	Susceptible					Disk diffusion			Unipath	CLSI	2011
