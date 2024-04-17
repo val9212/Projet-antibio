@@ -26,6 +26,20 @@ class methods():
         return genus_list
 
     @classmethod
+    def devide_requesterV2(cls, taxon_id, n_chunk = 10):
+        genus_dict = {}
+
+        chunk_size = int(len(taxon_id) / n_chunk)
+        for i in range(0, len(taxon_id), chunk_size):
+            chunk_taxon_ids = taxon_id[i:i + chunk_size]  # Sélectionner le chunk actuel d'ID de taxon
+            response = request.requester(chunk_taxon_ids)
+            genus_chunk = request.extract_genus(response)
+            for taxon, genus in zip(chunk_taxon_ids, genus_chunk):
+                genus_dict[taxon] = genus
+
+        return genus_dict
+
+    @classmethod
     def get_header(cls, file):
         headers = []
         with open(file, 'r') as fasta_file:
@@ -398,4 +412,30 @@ class methods():
         with open("test.txt", 'w') as file:
             for data in tableau_resultats:
                 file.write('\t'.join(data))
+                file.write('\n')
+
+    @classmethod
+    def get_more_tested_genome(cls, genome_object):
+        genus_list = []
+        genome_list = []
+        nber_of_test_list = []
+        for i in genome_object:
+            genus = genome_object[i].get_genus()
+            if genus not in genus_list and genus is not None:
+                genus_list.append(genus)
+                genome_list.append(genome_object[i].get_id())
+                nber_of_test_list.append(len(genome_object[i].get_antibiotics_data()))
+            elif genus is not None:
+                index = genus_list.index(genus)
+                if nber_of_test_list[index] < len(genome_object[i].get_antibiotics_data()):
+                    genome_list[index] = genome_object[i].get_id()
+                    nber_of_test_list[index] = len(genome_object[i].get_antibiotics_data())
+
+
+        with open("genomelist.txt", 'w') as file:
+            file.write(f"genus\tgenome_id\tnber_of_test\n")
+            for i in range(len(genus_list)):
+                file.write(f"{genus_list[i]}\t")
+                file.write(f"{genome_list[i]}\t")
+                file.write(f"{nber_of_test_list[i]}\t")
                 file.write('\n')

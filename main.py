@@ -1,6 +1,7 @@
 
 from InOut import *
 from all import *
+from tqdm import tqdm
 
 
 # programme principal
@@ -8,7 +9,19 @@ if __name__ == '__main__':
 
     # lire la DB de PATRICK
     genome_objects, antibiotics = Inout.read_file("./data/genome_AMR.txt")
-    Inout.to_table(genome_objects, antibiotics)
+    listes = []
+    for i in genome_objects:
+        integer_part = i.split('.')[0]
+        listes.append(int(integer_part))
+    y = set(listes)
+    ly = list(y)
+    dico_list = methods.devide_requesterV2(ly)
+
+    for i in tqdm(genome_objects):
+        if genome_objects[i].get_taxon_id() in dico_list:
+            genome_objects[i].add_genus(dico_list[genome_objects[i].get_taxon_id()])
+    methods.get_more_tested_genome(genome_objects)
+    "Inout.to_table(genome_objects, antibiotics)"
 
     """listes = [] 
     # ARBRE phylogenetic (transformation des taxons ID en GENUS)
@@ -88,7 +101,7 @@ if __name__ == '__main__':
     Inout.create_csv_from_dicts(dico_argannot, dico_card, dico_ncbi, dico_resfinder, "class_db.csv")"""
 
     #faire un tableau qui compte le nombre de genome testé et son resultat
-    methods.count_table("./results/table2.csv")
+    'methods.count_table("./results/table2.csv")'
 
 
 

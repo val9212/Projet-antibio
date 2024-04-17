@@ -1,6 +1,7 @@
 import csv
 from GData import *
 import pandas as pd
+from tqdm import tqdm
 
 class Inout():
     @classmethod
@@ -14,7 +15,7 @@ class Inout():
 
         genome_objects = {}
 
-        for record in raw_data:
+        for record in tqdm(raw_data):
 
             genome_id_set.add(record['genome_id'])
             antibiotics_set.add(record['antibiotic'])

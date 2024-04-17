@@ -1,9 +1,14 @@
+import requests
+
+from all import *
+from requester import *
 class GenomeData:
     def __init__(self, genome_id, genome_name, taxon_id):
         self.__genome_id = genome_id
         self.__genome_name = genome_name
         self.__taxon_id = taxon_id
         self.__antibiotics_data = []
+        self.__genus = None
 
     def add_antibiotic_data(self, antibiotic, measurement_value, measurement_unit, resistant_phenotype, laboratory_typing_method):
         self.__antibiotics_data.append({
@@ -24,10 +29,19 @@ class GenomeData:
         return self.__genome_name
 
     def get_taxon_id(self):
-        return self.__taxon_id
+        if self.__taxon_id:
+            return int(self.__taxon_id)
+        else:
+            return self.__genome_id
+
+    def get_genus(self):
+        return self.__genus
+
+    def add_genus(self, genus):
+        self.__genus = genus
 
     def __str__(self):
-        return (f"{self.__genome_id}")
+        return (f"{self.__taxon_id}")
 
     def __repr__(self):
         return str(self)
