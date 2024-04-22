@@ -58,28 +58,26 @@ class methods():
         return nchaine.replace(';', ' ')
 
     @classmethod
-    def get_anti(cls, headers, param = "argannot"):
+    def get_anti(cls, headers, param):
         antibiotic_classes = []
-        if param != "argannot":
-            for header in headers:
-                parties = header.rsplit("~~~", 3)
-                derniers_trois_tildes = parties[3]
-                nparties = derniers_trois_tildes.split(" ")
-                final = nparties[0]
-                liste_header = final.lower().split(";")
-                for i in liste_header:
-                    if i == '':
-                        final = nparties[1]
-                        tfinale = cls.normalize_antibiotic_names_s(final[:3])
-                        antibiotic_classes.append(tfinale)
-                    else: antibiotic_classes.append(i)
-        else:
-            for header in headers:
-                parties = header.rsplit("~~~", 3)
-                all = parties[1]
-                antibio = re.search(r'\((.*?)\)', all).group(1)
-                antibio = cls.normalize_antibiotic_names_s(antibio)
-                antibiotic_classes.append(antibio)
+        if param == "argannot":
+            antibiotic_class_regex = re.compile(r'>[^~]+~~~\(([^)]+)\)')
+        if param == "card":
+            antibiotic_class_regex = re.compile(r'~~~(\w+)(?:\s|$)')
+        if param == "ecoh":
+            antibiotic_class_regex = re.compile(r'~~~\S+~~~\S+\s(.+)')
+
+        for header in headers:
+            match = antibiotic_class_regex.search(header)
+            if match:
+                antibiotic_class = match.group(1)
+                antibiotic_classes.append(antibiotic_class)
+            else:
+                headerspace = cls.replace_semicolon(header)
+                anti = cls.trouver_mot_cle(headerspace)
+                if anti is not None:
+                    antibiotic_classes.append(anti)
+
         return antibiotic_classes
 
     @classmethod
