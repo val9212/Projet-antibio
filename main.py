@@ -23,11 +23,11 @@ if __name__ == '__main__':
     liste_antibio = []
     header_argannot = methods.get_header(argannot)
     x = methods.get_anti(header_argannot, "argannot")
-    y =sorted(x)
+    y = sorted(x)
     liste_antibio.append(y)
     header_card = methods.get_header(card)
     x = methods.get_anti(header_card, "card")
-    y =sorted(x)
+    y = sorted(x)
     liste_antibio.append(y)
     header_ncbi = methods.get_header(ncbi)
     x = methods.get_anti(header_ncbi, "ecoh")
@@ -38,87 +38,114 @@ if __name__ == '__main__':
     liste_antibio.append(x)
 
     name = ["argannot", "card", "ncbi", "resfinder"]
-    liste_antibio_2 = []
-    liste_dico_class = []
+
     e = 0
 
     for antibiotique in liste_antibio:
+        liste_antibio_2 = []
         noms_normalises = methods.normalize_antibiotic_names(antibiotique)
         for nom in noms_normalises:
             if nom not in liste_antibio_2:
                 liste_antibio_2.append(nom)
+        print(name[e])
+        print(liste_antibio_2)
 
-    x = methods.parse_argannot_results("./data/ARGANNOT.txt")
-    z = methods.info_from_results(x)
-    genome_objects, antibiotics = Inout.read_file("./data/genome_AMR.txt")
-    genus, ids = methods.get_selected_genome("genomelist.txt")
-    count = 0
-    total_count = []
-    for i in range(len(ids)):
-        liste_anti = []
-        simple_list = []
-        gid = ids[i]
-        count_m = 0
-        with open(f"./data/genome3/{genus[i]}.txt", 'w') as file:
-            file.write(f"{genus[i]}\tPATRIC\tABRICATE\n")
-        antibiotic_data = genome_objects[gid].get_antibiotics_data()
-        for antibiotics in antibiotic_data:
-            dico_anti = {
-                "antibiotic": '',
-                "resistance": '',
-                "abricate": 'NOT'
-            }
-            antibiotics["antibiotic"] = antibiotics["antibiotic"].replace("/", "+")
-            antibiotic = antibiotics["antibiotic"]
-            resistance = antibiotics["resistant_phenotype"]
-            for dico in z:
-                if dico["file"] == genus[i]:
-                    list_tested = dico["product_resistance"]
-                    if antibiotic in list_tested:
-                        dico_anti["abricate"] = "R"
-                    if antibiotic not in liste_antibio_2:
-                        if dico_anti["abricate"] != "ND":
-                            dico_anti["abricate"] = "ND"
-                            count +=1
-                            count_m +=1
-            if antibiotic not in simple_list:
-                simple_list.append(antibiotic)
-                dico_anti["antibiotic"] = antibiotic
-                if resistance == 'Resistant' or resistance == "Nonsusceptible":
-                    dico_anti["resistance"] = 'R'
-                elif resistance == 'Susceptible' or resistance == "IS" or resistance == "Susceptible-dose dependent":
-                    dico_anti["resistance"] = "S"
-                elif resistance == 'Intermediate' or resistance == "Reduced Susceptibility":
-                    dico_anti["resistance"] = "I"
-                elif resistance == '':
-                    dico_anti["resistance"] = "ND"
-                liste_anti.append(dico_anti)
-            else:
-                for dico in liste_anti:
-                    if dico["antibiotic"] == antibiotic:
-                        if resistance == 'Resistant' or resistance == "Nonsusceptible":
-                            resistance = 'R'
-                        elif resistance == 'Susceptible' or resistance == "IS" or resistance == "Susceptible-dose dependent":
-                            resistance = 'S'
-                        elif resistance == 'Intermediate' or resistance == "Reduced Susceptibility":
-                            resistance = 'I'
-                        elif resistance == '':
-                            resistance = "ND"
-                        dico_resi = dico["resistance"]
 
-                        if resistance != dico_resi:
-                            dico["resistance"] = "ND"
-        print(genus[i], count_m)
-        total_count.append(count_m)
+        x = methods.parse_argannot_results("./data/ARGANNOT.txt")
+        z = methods.info_from_results(x)
+        genome_objects, antibiotics = Inout.read_file("./data/genome_AMR.txt")
+        genus, ids = methods.get_selected_genome("genomelist.txt")
+        count = 0
+        total_count = []
+        for i in range(len(ids)):
+            liste_anti = []
+            simple_list = []
+            gid = ids[i]
+            count_m = 0
+            with open(f"./data/genome/{name[e]}/{genus[i]}.txt", 'w') as file:
+                file.write(f"{genus[i]}\tPATRIC\tABRICATE\trelax\tstricte\n")
+            antibiotic_data = genome_objects[gid].get_antibiotics_data()
+            for antibiotics in antibiotic_data:
+                dico_anti = {
+                    "antibiotic": '',
+                    "resistance": '',
+                    "abricate": 'NOT',
+                    "relax": "NC",
+                    "stricte": "NC"
+                }
+                antibiotics["antibiotic"] = antibiotics["antibiotic"].replace("/", "+")
+                antibiotic = antibiotics["antibiotic"]
+                resistance = antibiotics["resistant_phenotype"]
+                for dico in z:
+                    if dico["file"] == genus[i]:
+                        if dico["database"] == name[e]:
+                            list_tested = dico["product_resistance"]
+                            if antibiotic in list_tested:
+                                dico_anti["abricate"] = "R"
+                            if antibiotic not in liste_antibio_2:
+                                if dico_anti["abricate"] != "ND":
+                                    dico_anti["abricate"] = "ND"
+                if antibiotic not in simple_list:
+                    simple_list.append(antibiotic)
+                    dico_anti["antibiotic"] = antibiotic
+                    if resistance == 'Resistant' or resistance == "Nonsusceptible":
+                        dico_anti["resistance"] = 'R'
+                    elif resistance == 'Susceptible' or resistance == "IS" or resistance == "Susceptible-dose dependent":
+                        dico_anti["resistance"] = "S"
+                    elif resistance == 'Intermediate' or resistance == "Reduced Susceptibility":
+                        dico_anti["resistance"] = "I"
+                    elif resistance == '':
+                        dico_anti["resistance"] = "ND"
+                    liste_anti.append(dico_anti)
+                else:
+                    for dico in liste_anti:
+                        if dico["antibiotic"] == antibiotic:
+                            if resistance == 'Resistant' or resistance == "Nonsusceptible":
+                                resistance = 'R'
+                            elif resistance == 'Susceptible' or resistance == "IS" or resistance == "Susceptible-dose dependent":
+                                resistance = 'S'
+                            elif resistance == 'Intermediate' or resistance == "Reduced Susceptibility":
+                                resistance = 'I'
+                            elif resistance == '':
+                                resistance = "ND"
+                            dico_resi = dico["resistance"]
 
-        with open(f"./data/genome3/{genus[i]}.txt", 'a') as file:
-            for x in liste_anti:
-                file.write(f'{x["antibiotic"]}\t{x["resistance"]}\t{x["abricate"]}\n')
-        print(count)
-        print(sum(total_count)/len(total_count))
-        print(len(total_count))
-        print(np.median(total_count))
-        print(max(total_count))
+                            if resistance != dico_resi:
+                                if resistance != "ND" and dico_resi == "ND":
+                                    dico["resistance"] = resistance
+                                elif resistance == "ND" and dico_resi != "ND":
+                                    dico["resistance"] = dico_resi
+                                else:
+                                    dico["resistance"] = "ND"
+            for dico_anti in liste_anti:
+                        if dico_anti["resistance"] == "R" and dico_anti["abricate"] == "R":
+                            dico_anti["relax"] = "TP"
+                            dico_anti["stricte"] = "TP"
+                        if dico_anti["resistance"] == "R" and dico_anti["abricate"] == "NOT":
+                            dico_anti["relax"] = "FN"
+                            dico_anti["stricte"] = "FN"
+                        if dico_anti["resistance"] == "R" and dico_anti["abricate"] == "ND":
+                            dico_anti["relax"] = "NC"
+                            dico_anti["stricte"] = "FC"
+                        if dico_anti["resistance"] == "S" and dico_anti["abricate"] == "R":
+                            dico_anti["relax"] = "FP"
+                            dico_anti["stricte"] = "FP"
+                        if dico_anti["resistance"] == "S" and dico_anti["abricate"] == "NOT":
+                            dico_anti["relax"] = "TN"
+                            dico_anti["stricte"] = "TN"
+                        if dico_anti["resistance"] == "S" and dico_anti["abricate"] == "ND":
+                            dico_anti["relax"] = "NC"
+                            dico_anti["stricte"] = "TN"
+
+
+
+            total_count.append(count_m)
+
+            with open(f"./data/genome/{name[e]}/{genus[i]}.txt", 'a') as file:
+                for x in liste_anti:
+                    file.write(f'{x["antibiotic"]}\t{x["resistance"]}\t{x["abricate"]}\t{x["relax"]}\t{x["stricte"]}\n')
+        e+=1
+
 
 
         # lire la DB de PATRICK
