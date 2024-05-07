@@ -656,7 +656,7 @@ class methods():
                 file.write('\n')
 
     @classmethod
-    def get_more_tested_genome(cls, genome_object, no_missing = False):
+    def get_more_tested_genome(cls, genome_object, no_missing = False, out = "genomelist.txt"):
         """
         Obtient les informations des génomes avec le plus grand nombre de tests effectués.
 
@@ -694,7 +694,7 @@ class methods():
                     nber_of_test_list[index] = count
 
 
-        with open("genomelist2.txt", 'w') as file:
+        with open(out, 'w') as file:
             file.write(f"genus\tgenome_id\tnber_of_test\n")
             for i in range(len(genus_list)):
                 file.write(f"{genus_list[i]}\t")
