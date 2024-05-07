@@ -736,7 +736,7 @@ class methods():
     @classmethod
     def parse_argannot_results(cls, file_path):
         """
-        Analyse les résultats provenant de la base de données Arg-Annot.
+        Analyse les résultats provenant de la base des bases de données de Abricate.
 
         :param file_path: Chemin vers le fichier CSV contenant les résultats de la recherche.
         :return: Une liste de dictionnaires contenant les informations analysées.
