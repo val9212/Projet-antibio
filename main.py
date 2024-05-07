@@ -9,15 +9,15 @@ import numpy as np
 if __name__ == '__main__':
 
     #lire les DB abricate
-    argannot = "C:/Users/val92/PycharmProjects/Projet-antibio/data/db/argannot/sequences"#argannot ok
-    card = "C:/Users/val92/PycharmProjects/Projet-antibio/data/db/card/sequences" #card ok
-    ecoh = "C:/Users/val92/PycharmProjects/Projet-antibio/data/db/ecoh/sequences" #echo ok
-    ecoli_vf = "C:/Users/val92/PycharmProjects/Projet-antibio/data/db/ecoli_vf/sequences" #?
-    megares = "C:/Users/val92/PycharmProjects/Projet-antibio/data/db/megares/sequences" #ecoh ok
-    ncbi = "C:/Users/val92/PycharmProjects/Projet-antibio/data/db/ncbi/sequences" #ecoh ok
-    plasmidfinder = "C:/Users/val92/PycharmProjects/Projet-antibio/data/db/plasmidfinder/sequences" #?
-    resfinder = "C:/Users/val92/PycharmProjects/Projet-antibio/data/db/resfinder/sequences" #card ok
-    vfdb = "C:/Users/val92/PycharmProjects/Projet-antibio/data/db/vfdb/sequences" #echo no
+    argannot = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/argannot/sequences"#argannot ok
+    card = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/card/sequences" #card ok
+    ecoh = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/ecoh/sequences" #echo ok
+    ecoli_vf = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/ecoli_vf/sequences" #?
+    megares = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/megares/sequences" #ecoh ok
+    ncbi = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/ncbi/sequences" #ecoh ok
+    plasmidfinder = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/plasmidfinder/sequences" #?
+    resfinder = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/resfinder/sequences" #card ok
+    vfdb = "C:/Users/Valentin/PycharmProjects/Projet-antibio/data/db/vfdb/sequences" #echo no
 
 
     liste_antibio = []
@@ -126,7 +126,7 @@ if __name__ == '__main__':
                             dico_anti["stricte"] = "FN"
                         if dico_anti["resistance"] == "R" and dico_anti["abricate"] == "ND":
                             dico_anti["relax"] = "NC"
-                            dico_anti["stricte"] = "FC"
+                            dico_anti["stricte"] = "FN"
                         if dico_anti["resistance"] == "S" and dico_anti["abricate"] == "R":
                             dico_anti["relax"] = "FP"
                             dico_anti["stricte"] = "FP"

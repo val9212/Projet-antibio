@@ -5,6 +5,12 @@ class request():
 
     @classmethod
     def requester(cls, taxon_id):
+        """
+        Effectue une requête à l'API NCBI pour obtenir des informations sur un taxon spécifique.
+
+        :param taxon_id: L'identifiant du taxon pour lequel récupérer les informations.
+        :return: Le texte de réponse de l'API contenant les informations demandées.
+        """
         # Define the base URL
         base_url = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/'
 
@@ -43,6 +49,12 @@ class request():
 
     @classmethod
     def extract_genus(cls, xml_document):
+        """
+        Extrait les noms de genre à partir d'un document XML contenant des informations taxonomiques.
+
+        :param xml_document: Le document XML contenant les informations taxonomiques.
+        :return: Une liste des noms de genre extraits du document XML.
+        """
         # Parse the entire XML document
         root = ET.fromstring(xml_document)
 

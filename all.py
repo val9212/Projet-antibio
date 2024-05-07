@@ -9,6 +9,12 @@ class methods():
 
     @classmethod
     def unique_genus(cls, genus_list):
+        """
+        Retourne une liste unique des noms de genre à partir d'une liste de listes de noms de genre.
+
+        :param genus_list: Une liste de listes de noms de genre.
+        :return: Une liste unique des noms de genre.
+        """
         final_list = []
         for sublist in genus_list:
             for item in sublist:
@@ -18,6 +24,13 @@ class methods():
 
     @classmethod
     def devide_requester(cls, taxon_id, n_chunk = 10):
+        """
+        Divise les identifiants de taxon en chunks et récupère les noms de genre correspondants pour chaque chunk.
+
+        :param taxon_id: Une liste d'identifiants de taxon.
+        :param n_chunk: Le nombre de chunks à diviser les identifiants de taxon.
+        :return: Une liste de listes de noms de genre correspondants à chaque chunk.
+        """
         i = 0
         genus_list = []
         n = int(len(taxon_id) / n_chunk)
@@ -30,6 +43,13 @@ class methods():
 
     @classmethod
     def devide_requesterV2(cls, taxon_id, n_chunk = 10):
+        """
+        Divise les identifiants de taxon en chunks et récupère les noms de genre correspondants pour chaque chunk.
+
+        :param taxon_id: Une liste d'identifiants de taxon.
+        :param n_chunk: Le nombre de chunks à diviser les identifiants de taxon.
+        :return: Un dictionnaire où chaque identifiant de taxon est associé à son nom de genre correspondant.
+        """
         genus_dict = {}
 
         chunk_size = int(len(taxon_id) / n_chunk)
@@ -44,6 +64,12 @@ class methods():
 
     @classmethod
     def get_header(cls, file):
+        """
+        Extrait les en-têtes des séquences à partir d'un fichier FASTA.
+
+        :param file: Le chemin vers le fichier FASTA.
+        :return: Une liste des en-têtes des séquences.
+        """
         headers = []
         with open(file, 'r') as fasta_file:
             for line in fasta_file:
@@ -59,6 +85,13 @@ class methods():
 
     @classmethod
     def get_anti(cls, headers, param = "argannot"):
+        """
+        Extrait les noms des antibiotiques à partir des en-têtes des séquences.
+
+        :param headers: Une liste des en-têtes des séquences.
+        :param param: Le paramètre indiquant la manière d'extraire les noms des antibiotiques (par défaut: 'argannot').
+        :return: Une liste des noms des antibiotiques extraits des en-têtes des séquences.
+        """
         antibiotic_classes = []
         if param != "argannot":
             for header in headers:
@@ -84,6 +117,12 @@ class methods():
 
     @classmethod
     def normalize_antibiotic_names_s(cls, name):
+        """
+        Normalise un nom d'antibiotique en utilisant un dictionnaire de correspondance prédéfini.
+
+        :param name: Le nom de l'antibiotique à normaliser.
+        :return: Le nom normalisé de l'antibiotique.
+        """
         antibiotic_normalization_dict = {
             "amp": "ampicillin",
             "arma": "aminoglycoside",
@@ -225,6 +264,13 @@ class methods():
 
     @classmethod
     def normalize_antibiotic_names(cls, antibiotic_list):
+        """
+        Normalise une liste de noms d'antibiotiques en utilisant un dictionnaire de correspondance prédéfini.
+
+        :param antibiotic_list: La liste des noms d'antibiotiques à normaliser.
+        :return: La liste des noms d'antibiotiques normalisés.
+        """
+
         antibiotic_normalization_dict = {
             "amp": "ampicillin",
             "arma": "aminoglycoside",
@@ -374,11 +420,23 @@ class methods():
 
     @classmethod
     def normalize_antibiotic_names2(cls, name):
+        """
+        Normalise le nom de l'antibiotique en utilisant la table de données IUPAC.
+
+        :param name: Le nom de l'antibiotique à normaliser.
+        :return: Le nom normalisé de l'antibiotique.
+        """
         normalized_name = IUPACData.ambiguous_dna_values.get(name, name)
         return normalized_name
 
     @classmethod
     def trouver_mot_cle(cls, chaine):
+        """
+        Trouve un mot clé dans une chaîne donnée.
+
+        :param chaine: La chaîne dans laquelle rechercher le mot clé.
+        :return: Le premier mot clé trouvé dans la chaîne.
+        """
         mots_cles = ["amoxicillin", "Amikacin", "Clindamycin", "Cefepime", "Spiramycin", "Piperacillin+Tazobactam", "Ceftazidime", "Aztreonam", "Imipenem", "Tetracycline", "Gentamicin", "Dalfopristin", "doxycycline", "carbapenem", "Quinupristin", "Lincomycin", "rifamycin", "peptide", "cephalosporin", "D-lactate", "streptogramin", "mupirocin-resistant", "zorbamycin", "fomb", "fos", "phenicol", "polymyxin", "teicoplanin", "VanY-like", "tetracenomycin", "ciprofloxacin", "flavin", "streptomycin", "nitroimidazole", "ceftaroline-resistant", "aminocyclitol", "penicillinase", "fusidic", "peptidoglycan", "rifamycin-inactivating", "viomycin", "lincosamide", "beta-lactamase", "bleomycin", "kasugamycin", "aminoglycoside", "arma", "rifampin", "chloramphenicol", "glycopeptide", "trimethoprim", "erythromycin", "23s", "fosfomycin", "abc-f", "phosphoethanolamine--lipid", "beta-lactam", "macrolide", "oleandomycin", "multidrug", "quinolone", "serine", "d-ala-d-ala", "vancomycin", "alanine", "tetracycline", "sulfonamide", "streptothricin", "16s", "fluoroquinolone", "multidrug", "beta-lactam-resistant" , "methicillin", "macrolide", "metallo-beta-lactamase" ]
         for mot_cle in mots_cles:
             if mot_cle.lower() in chaine.lower():
@@ -388,6 +446,12 @@ class methods():
 
     @classmethod
     def count_element(cls, liste):
+        """
+        Compte le nombre d'occurrences de chaque élément dans une liste.
+
+        :param liste: La liste contenant les éléments à compter.
+        :return: Un dictionnaire contenant les éléments comme clés et leur nombre d'occurrences comme valeurs.
+        """
         occurrences_dict = {}
         for element in liste:
             if element in occurrences_dict:
@@ -398,6 +462,12 @@ class methods():
 
     @classmethod
     def present_elements(cls, liste):
+        """
+        Vérifie la présence de chaque élément dans une liste.
+
+        :param liste: La liste contenant les éléments à vérifier.
+        :return: Un dictionnaire indiquant la présence de chaque élément dans la liste.
+        """
         dictio = {}
         for element in liste:
             if element not in dictio:
@@ -407,6 +477,12 @@ class methods():
 
     @classmethod
     def extraire_trois_caracteres_apres_tilde(cls, chaine):
+        """
+        Extrait les trois caractères suivant le dernier "~~~" dans une chaîne.
+
+        :param chaine: La chaîne dans laquelle effectuer l'extraction.
+        :return: Les trois caractères suivant le dernier "~~~" dans la chaîne.
+        """
         # Trouver l'index du dernier "~~~"
         index_dernier_tilde = chaine.rfind("~~~")
 
@@ -421,6 +497,12 @@ class methods():
 
     @classmethod
     def get_anti_class(cls, normalized_list):
+        """
+        Associe chaque nom d'antibiotique à une classe d'antibiotique spécifique.
+
+        :param normalized_list: Liste de noms normalisés d'antibiotiques.
+        :return: Liste des classes d'antibiotiques associées aux noms d'antibiotiques.
+        """
         class_list = []
         anti_class = {
                 "16s": "ND",
@@ -529,6 +611,12 @@ class methods():
 
     @classmethod
     def count_table(cls, fichier_csv):
+        """
+        Compte le nombre d'occurrences de résistance/susceptibilité/intermédiaire/erreur de données
+        pour chaque antibiotique dans un fichier CSV de résultats.
+
+        :param fichier_csv: Le chemin vers le fichier CSV contenant les données de résistance.
+        """
         antibiotiques = {}
 
         with open(fichier_csv, 'r') as csv_file:
@@ -569,6 +657,12 @@ class methods():
 
     @classmethod
     def get_more_tested_genome(cls, genome_object, no_missing = False):
+        """
+        Obtient les informations des génomes avec le plus grand nombre de tests effectués.
+
+        :param genome_object: Un dictionnaire contenant des objets de génome.
+        :param no_missing: Un booléen indiquant s'il faut exclure les tests manquants.
+        """
         genus_list = []
         genome_list = []
         nber_of_test_list = []
@@ -610,6 +704,12 @@ class methods():
 
     @classmethod
     def get_selected_genome(cls, file):
+        """
+        Obtient les informations des génomes sélectionnés à partir d'un fichier.
+
+        :param file: Le chemin vers le fichier contenant les informations des génomes sélectionnés.
+        :return: Une liste contenant les noms des genres et les identifiants des génomes sélectionnés.
+        """
         liste_genus = []
         liste_id = []
         with open(file, 'r', newline='') as csvfile:
@@ -625,10 +725,22 @@ class methods():
         return liste_genus, liste_id
     @classmethod
     def remove_extension(cls,file_name):
+        """
+        Supprime l'extension du nom de fichier.
+
+        :param file_name: Le nom du fichier avec extension.
+        :return: Le nom du fichier sans extension.
+        """
         return os.path.splitext(file_name)[0]
 
     @classmethod
     def parse_argannot_results(cls, file_path):
+        """
+        Analyse les résultats provenant de la base de données Arg-Annot.
+
+        :param file_path: Chemin vers le fichier CSV contenant les résultats de la recherche.
+        :return: Une liste de dictionnaires contenant les informations analysées.
+        """
         # Lecture du fichier CSV dans un DataFrame pandas
         resultats_df = pd.read_csv(file_path, sep='\t')
 
@@ -653,6 +765,12 @@ class methods():
 
     @classmethod
     def info_from_results(cls, data):
+        """
+        Obtient des informations à partir des résultats analysés.
+
+        :param data: Liste de dictionnaires contenant les résultats analysés.
+        :return: Une liste de dictionnaires contenant les informations obtenues.
+        """
         for dico in data:
             if dico["database"] == "argannot":
                 antibio = re.search(r'\((.*?)\)', dico["product_resistance"]).group(1)

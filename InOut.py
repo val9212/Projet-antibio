@@ -6,6 +6,12 @@ from tqdm import tqdm
 class Inout():
     @classmethod
     def read_file(cls, file):
+        """
+        Lit les données à partir d'un fichier CSV et crée des objets GenomeData à partir de ces données.
+
+        :param file: Le chemin vers le fichier CSV à lire.
+        :return: Un dictionnaire d'objets GenomeData et une liste d'antibiotiques uniques.
+        """
         genome_id_set = set()
         antibiotics_set = set()
 
@@ -43,13 +49,17 @@ class Inout():
 
     @classmethod
     def to_table(cls, genome_objects, antibiotics, path = "./results/table2.csv"):
-        # Les en-têtes
+        """
+        Convertit les objets GenomeData en un tableau CSV contenant les données d'antibiotiques.
+
+        :param genome_objects: Un dictionnaire d'objets GenomeData.
+        :param antibiotics: Une liste d'antibiotiques uniques.
+        :param path: Le chemin du fichier CSV de sortie.
+        """
         headers = ['genome_id', 'genome_name', 'taxon_id'] + antibiotics
 
-        # Initialiser un dictionnaire pour stocker les données
         data = {gid: {antibiotic: 'NA' for antibiotic in antibiotics} for gid in genome_objects}
 
-        # Remplir le dictionnaire avec les valeurs de résistance
         for gid in genome_objects:
             data[gid]['genome_name'] = genome_objects[gid].get_name()
             data[gid]['taxon_id'] = genome_objects[gid].get_taxon_id()
@@ -57,13 +67,11 @@ class Inout():
             for antibiotic_data in info_antibio:
                 antibiotic = antibiotic_data['antibiotic']
                 if antibiotic in antibiotics:
-                        # Utiliser le phenotype de résistance
                     if antibiotic_data['resistant_phenotype'] == "":
                         data[gid][antibiotic] = "DATA_ERROR"
                     else:
                         data[gid][antibiotic] = antibiotic_data['resistant_phenotype']
 
-        # Écrire les données dans un fichier CSV
         with open(path, mode='w', newline='') as file:
             writer = csv.DictWriter(file, fieldnames=headers)
             writer.writeheader()
@@ -92,6 +100,15 @@ class Inout():
 
     @classmethod
     def create_csv_from_dicts(cls, dict1, dict2, dict3, dict4, output_file):
+        """
+        Crée un fichier CSV à partir de quatre dictionnaires en fusionnant les données.
+
+        :param dict1: Premier dictionnaire.
+        :param dict2: Deuxième dictionnaire.
+        :param dict3: Troisième dictionnaire.
+        :param dict4: Quatrième dictionnaire.
+        :param output_file: Le nom du fichier CSV de sortie.
+        """
         df1 = pd.DataFrame(list(dict1.items()), columns=['Antibiotique', 'Argannot'])
         df2 = pd.DataFrame(list(dict2.items()), columns=['Antibiotique', 'card'])
         df3 = pd.DataFrame(list(dict3.items()), columns=['Antibiotique', 'ncbi'])
