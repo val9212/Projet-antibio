@@ -1,5 +1,4 @@
 from InOut import Inout
-from all import *
 
 if __name__ == '__main__':
     """

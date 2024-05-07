@@ -44,7 +44,6 @@ class Inout():
                 resistant_phenotype=record['resistant_phenotype'] if 'resistant_phenotype' in record else None,
                 laboratory_typing_method=record['laboratory_typing_method']
             )
-        print(len(antibiotics_set))
         return genome_objects, list(antibiotics_set)
 
     @classmethod
