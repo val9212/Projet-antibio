@@ -1,7 +1,7 @@
 ---
 title: "Analyses"
 output: html_document
-date: "2024-03-20"
+date: "2024-05-07"
 ---
 
 ```{r}
@@ -9,6 +9,7 @@ date: "2024-03-20"
 library(tidyr)
 library(dplyr)
 library(ggplot2)
+library(UpSetR)
 
 ```
 
@@ -234,7 +235,7 @@ print(data_error_par_taxon)
 ```
 
 ```{r}
-data <- read.csv("C:/Users/Valentin/PycharmProjects/Projet-antibio/antibiotiques_db.csv")
+data <- read.csv("C:/Users/Valentin/PycharmProjects/Projet-antibio/antibiotiquesV2_db.csv")
 data$Argannot <- as.integer(data$Argannot)
 data$card <- as.integer(data$card)
 data$ncbi <- as.integer(data$ncbi)
@@ -244,7 +245,7 @@ upset(data)
 ```
 
 ```{r}
-data <- read.csv("C:/Users/Valentin/PycharmProjects/Projet-antibio/class_db.csv")
+data <- read.csv("C:/Users/Valentin/PycharmProjects/Projet-antibio/classV2_db.csv")
 data$Argannot <- as.integer(data$Argannot)
 data$card <- as.integer(data$card)
 data$ncbi <- as.integer(data$ncbi)
