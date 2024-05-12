@@ -24,5 +24,5 @@ if __name__ == '__main__':
             liste_genus.append(genus)
 
     unique_genus = set(liste_genus)
-    print(list(unique_genus))
+    print(sorted(list(unique_genus)))
     print(len(list(unique_genus)))
