@@ -66,10 +66,11 @@ class Inout():
             for antibiotic_data in info_antibio:
                 antibiotic = antibiotic_data['antibiotic']
                 if antibiotic in antibiotics:
-                    if antibiotic_data['resistant_phenotype'] == "":
-                        data[gid][antibiotic] = "DATA_ERROR"
-                    else:
-                        data[gid][antibiotic] = antibiotic_data['resistant_phenotype']
+                    if data[gid][antibiotic] == "NA" or data[gid][antibiotic] == "DATA_ERROR":
+                        if antibiotic_data['resistant_phenotype'] == "":
+                            data[gid][antibiotic] = "DATA_ERROR"
+                        else:
+                            data[gid][antibiotic] = antibiotic_data['resistant_phenotype']
 
         with open(path, mode='w', newline='') as file:
             writer = csv.DictWriter(file, fieldnames=headers)
