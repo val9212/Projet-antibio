@@ -598,7 +598,7 @@ class methods():
                     nber_of_test_list[index] = count
 
 
-        with open("genomelist2.txt", 'w') as file:
+        with open("genomelist.txt", 'w') as file:
             file.write(f"genus\tgenome_id\tnber_of_test\n")
             for i in range(len(genus_list)):
                 file.write(f"{genus_list[i]}\t")
