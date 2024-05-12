@@ -1,0 +1,278 @@
+---
+title: "metriques"
+output: html_document
+date: "2024-05-12"
+author: "DENIS Anaïs, HOTTLET Valentin, PEREZ Lucie"
+---
+
+# Graphique des métriques
+
+```{r}
+# Installer et charger la bibliothèque ggplot2
+#install.packages("ggplot2")
+library(ggplot2)
+```
+
+
+
+## Nos graphiques 
+
+Tests de sensibilité aux antibiotiques(recall_relax)
+```{r}
+library(ggplot2)
+library(tidyr)
+
+donnees <- data.frame(
+  Genres = c("Achromobacter", "Acinetobacter", "Actinobacillus", "Aerococcus", "Aeromonas", "Aliarcobacter", "Burkholderia", "Campylobacter", "Citrobacter", "Clostridioides", "Corynebacterium", "Desulfovibrio", "Enterobacter", "Enterococcus", "Escherichia", "Haemophilus", "Helicobacter", "Herbaspirillum", "Klebsiella", "Kluyvera", "Lachnoclostridium","Leclercia", "Lelliottia", "Listeria", "Morganella", "Mycobacterium", "Mycolicibacillus", "Mycolicibacterium", "Neisseria", "Phytobacter", "Pluralibacter","Proteus", "Providencia", "Pseudomonas", "Raoultella", "Salmonella", "Serratia", "Shigella", "Staphylococcus", "Streptococcus", "Stutzerimonas", "Vibrio", "Yersinia"),
+  relax_argannot_recall = c(0,1,0,0,0,0,0,1,1, 0,0,0,0,1,1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0.5,1,0,0,0,0,0,0,0,0,0,0),
+  relax_card_recall = c(0,1,0,0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,1,1,1,0,0,0,1,1,1,1,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0),
+  relax_ncbi_recall = c(0,1,0,0,0,0,0,0.5,1,0,0,0,0,0.8,1,0,0,0,0.25,0,0.5,0,0.5,0,1,0,0,0,0,0,0,0.444,1,0,0,0,0,0,0,0,0,0,0),
+  relax_resfinder_recall = c(0,0.455,0,0,0,0,0,0.286,0.833,0,0,0,0.4,0.714,0.333,0,0,0,0.333,0.923,0.2,0,0.5,0,1,0,0,0,0,0,0,0.565,0.7,0,0.8,0,0,1,0.25,0.5,0,0,0)
+)
+
+# Mettre les données en format long
+donnees_long <- tidyr::pivot_longer(donnees, cols = -Genres, names_to = "Source", values_to = "Valeur")
+
+# Créer le graphique à points
+ggplot(donnees_long, aes(x = Genres, y = Valeur, color = Source, shape = Source)) +
+  geom_point(size = 3) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = "Genres", y = "Métriques", title = "Métriques des tests de sensibilité aux antibiotiques(recall_relax)") +
+  scale_color_manual(values = c("relax_argannot_recall" = "red", "relax_card_recall" = "blue", "relax_ncbi_recall" = "green", "relax_resfinder_recall" = "purple")) +
+  scale_shape_manual(values = c("relax_argannot_recall" = 1, "relax_card_recall" = 1, "relax_ncbi_recall" = 2, "relax_resfinder_recall" = 2)) +
+  theme(legend.position = "top")
+```
+
+Tests de sensibilité aux antibiotiques(precision_relax)
+
+```{r}
+library(ggplot2)
+library(tidyr)
+
+donnees <- data.frame(
+  Genres = c("Achromobacter", "Acinetobacter", "Actinobacillus", "Aerococcus", "Aeromonas", "Aliarcobacter", "Burkholderia", "Campylobacter", "Citrobacter", "Clostridioides", "Corynebacterium", "Desulfovibrio", "Enterobacter", "Enterococcus", "Escherichia", "Haemophilus", "Helicobacter", "Herbaspirillum", "Klebsiella", "Kluyvera", "Lachnoclostridium","Leclercia", "Lelliottia", "Listeria", "Morganella", "Mycobacterium", "Mycolicibacillus", "Mycolicibacterium", "Neisseria", "Phytobacter", "Pluralibacter","Proteus", "Providencia", "Pseudomonas", "Raoultella", "Salmonella", "Serratia", "Shigella", "Staphylococcus", "Streptococcus", "Stutzerimonas", "Vibrio", "Yersinia"),
+relax_argannot_precision = c(0,1,0,0, 0,0,0,1,1, 0, 0,0,0,1,1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0),
+relax_card_precision = c(0,1,0,0,0,0,0,1,1,0,0,0,0,1,0.5,0,0,0,1,1,1,0,0,0,1,1,1,1,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0),
+relax_ncbi_precision = c(0,1,0,0,0,0,0,1,0.666,0,0,0,0,1,1,0,0,0,0.5,0,1,0,1,0,0.75,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0),
+relax_resfinder_precision = c(0,1,0,0,0,0,0,1,1,0,0,0,0.8,1,1,0,0,0,0.666,0.923,1,0,1,0,1,0,0,0,0,0,0,1,0.777,0,0.4,0,0,1,1,0.5,0,0,0)
+)
+
+# Mettre les données en format long
+donnees_long <- tidyr::pivot_longer(donnees, cols = -Genres, names_to = "Source", values_to = "Valeur")
+
+# Créer le graphique à points
+ggplot(donnees_long, aes(x = Genres, y = Valeur, color = Source, shape = Source)) +
+  geom_point(size = 3) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = "Genres", y = "Métriques", title = "Métriques des tests de sensibilité aux antibiotiques(precision_relax)") +
+  scale_color_manual(values = c("relax_argannot_precision" = "red", "relax_card_precision" = "blue", "relax_ncbi_precision" = "green", "relax_resfinder_precision" = "purple")) +
+  scale_shape_manual(values = c("relax_argannot_precision" = 1, "relax_card_precision" = 1, "relax_ncbi_precision" = 2, "relax_resfinder_precision" = 2)) +
+  theme(legend.position = "top")
+```
+Tests de sensibilité aux antibiotiques (recall_stricte)
+
+```{r}
+library(ggplot2)
+library(tidyr)
+
+donnees <- data.frame(
+  Genres = c("Achromobacter", "Acinetobacter", "Actinobacillus", "Aerococcus", "Aeromonas", "Aliarcobacter", "Burkholderia", "Campylobacter", "Citrobacter", "Clostridioides", "Corynebacterium", "Desulfovibrio", "Enterobacter", "Enterococcus", "Escherichia", "Haemophilus", "Helicobacter", "Herbaspirillum", "Klebsiella", "Kluyvera", "Lachnoclostridium","Leclercia", "Lelliottia", "Listeria", "Morganella", "Mycobacterium", "Mycolicibacillus", "Mycolicibacterium", "Neisseria", "Phytobacter", "Pluralibacter","Proteus", "Providencia", "Pseudomonas", "Raoultella", "Salmonella", "Serratia", "Shigella", "Staphylococcus", "Streptococcus", "Stutzerimonas", "Vibrio", "Yersinia"),
+stricte_argannot_recall = c(0,0.066,0,0,0,0,0, 0.125, 0.053,0,0,0,0,0.111,0.1,0,0,0,0,0,0.1,0,0,0,0.05,0,0,0,0,0,0,0.030,0.066,0,0,0,0,0,0,0,0,0,0),
+stricte_card_recall = c(0,0.066,0,0,0,0,0,0.125,0.053,0,0,0,0,0.111,0.1,0,0,0,0.125,0.059,0.1,0,0,0,0.047,0.166,0.166,1,0,0,0,0.030,0,0.1,0,0,0.2,0,0,0,0,0,0),
+stricte_ncbi_recall = c(0,0.2,0,0,0,0,0,0.25,0.111,0,0,0,0,0.444,0.1,0,0,0,0.111,0,0.1,0,0.078,0,0.143,0,0,0,0,0,0,0.121,0.066,0,0,0,0,0,0,0,0,0,0),
+stricte_resfinder_recall = c(0,0.2,0,0,0,0,0,0.25,0.526,0,0,0,0.286,0.555,0.2,0,0,0,0.222,0.706,0.1,0,0.385,0,0.714,0,0,0,0,0,0,0.4,0.466,0,0.444,0,0,0.5,0.111,0.5,0,0,0)
+)
+
+# Mettre les données en format long
+donnees_long <- tidyr::pivot_longer(donnees, cols = -Genres, names_to = "Source", values_to = "Valeur")
+
+# Créer le graphique à points
+ggplot(donnees_long, aes(x = Genres, y = Valeur, color = Source, shape = Source)) +
+  geom_point(size = 3) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = "Genres", y = "Métriques", title = "Métriques des tests de sensibilité aux antibiotiques (recall_stricte)") +
+  scale_color_manual(values = c("stricte_argannot_recall" = "red", "stricte_card_recall" = "blue", "stricte_ncbi_recall" = "green", "stricte_resfinder_recall" = "purple")) +
+  scale_shape_manual(values = c("stricte_argannot_recall" = 1, "stricte_card_recall" = 1, "stricte_ncbi_recall" = 2, "stricte_resfinder_recall" = 2)) +
+  theme(legend.position = "top")
+```
+
+Tests de sensibilité aux antibiotiques (precision_stricte)
+
+```{r}
+library(ggplot2)
+library(tidyr)
+
+donnees <- data.frame(
+  Genres = c("Achromobacter", "Acinetobacter", "Actinobacillus", "Aerococcus", "Aeromonas", "Aliarcobacter", "Burkholderia", "Campylobacter", "Citrobacter", "Clostridioides", "Corynebacterium", "Desulfovibrio", "Enterobacter", "Enterococcus", "Escherichia", "Haemophilus", "Helicobacter", "Herbaspirillum", "Klebsiella", "Kluyvera", "Lachnoclostridium","Leclercia", "Lelliottia", "Listeria", "Morganella", "Mycobacterium", "Mycolicibacillus", "Mycolicibacterium", "Neisseria", "Phytobacter", "Pluralibacter","Proteus", "Providencia", "Pseudomonas", "Raoultella", "Salmonella", "Serratia", "Shigella", "Staphylococcus", "Streptococcus", "Stutzerimonas", "Vibrio", "Yersinia"),
+stricte_argannot_precision = c(0, 1,0,0,0, 0,0,1,1,0,0,0,0,1,1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0),
+stricte_card_precision = c(0,1,0,0,0,0,0,1,1,0,0,0,0,1,0.5,0,0,0,1,0.059,1,0,0,0,1,1,1,1,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0),
+stricte_ncbi_precision = c(0,1,0,0,0,0,0,1,0.666,0,0,0,0,1,1,0,0,0,0.5,0,1,0,1,0,0.75,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0),
+stricte_resfinder_precision = c(0,1,0,0,0,0,0,1,1,0,0,0,0.8,1,1,0,0,0,0.666,0.923,1,0,1,0,1,0,0,0,0,0,0,1,0.777,0,0.4,0,0,1,1,0.5,0,0,0)
+)
+
+# Mettre les données en format long
+donnees_long <- tidyr::pivot_longer(donnees, cols = -Genres, names_to = "Source", values_to = "Valeur")
+
+# Créer le graphique à points
+ggplot(donnees_long, aes(x = Genres, y = Valeur, color = Source, shape = Source)) +
+  geom_point(size = 3) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = "Genres", y = "Métriques", title = "Métriques des tests de sensibilité aux antibiotiques (precision_stricte)") +
+  scale_color_manual(values = c("stricte_argannot_precision" = "red", "stricte_card_precision" = "blue", "stricte_ncbi_precision" = "green", "stricte_resfinder_precision" = "purple")) +
+  scale_shape_manual(values = c("stricte_argannot_precision" = 1, "stricte_card_precision" = 1, "stricte_ncbi_precision" = 2, "stricte_resfinder_precision" = 2)) +
+  theme(legend.position = "top")
+```
+
+Tests de sensibilité aux antibiotiques(specificite_relax)
+
+```{r}
+library(ggplot2)
+library(tidyr)
+
+donnees <- data.frame(
+  Genres = c("Achromobacter", "Acinetobacter", "Actinobacillus", "Aerococcus", "Aeromonas", "Aliarcobacter", "Burkholderia", "Campylobacter", "Citrobacter", "Clostridioides", "Corynebacterium", "Desulfovibrio", "Enterobacter", "Enterococcus", "Escherichia", "Haemophilus", "Helicobacter", "Herbaspirillum", "Klebsiella", "Kluyvera", "Lachnoclostridium","Leclercia", "Lelliottia", "Listeria", "Morganella", "Mycobacterium", "Mycolicibacillus", "Mycolicibacterium", "Neisseria", "Phytobacter", "Pluralibacter","Proteus", "Providencia", "Pseudomonas", "Raoultella", "Salmonella", "Serratia", "Shigella", "Staphylococcus", "Streptococcus", "Stutzerimonas", "Vibrio", "Yersinia"),
+  relax_argannot_spe = c(1.0, 0, 0, 0, 0, 1.0, 1.0, 0, 0, 1.0, 1.0, 1.0, 1.0, 0, 0, 1.0, 1.0, 1.0, 1.0, 0, 1.0, 1.0, 0, 1.0, 0, 0, 0, 0, 0, 1.0, 0, 0, 0, 0, 0, 1.0, 0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0),
+  relax_card_spe = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 0.0, 0, 0.0, 1.0, 0.0, 1.0, 0, 0, 0, 0, 0, 1.0, 0, 0, 0, 0, 0.0, 0.0, 0, 1.0, 0, 0, 0, 0.0, 0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0),
+  relax_ncbi_spe = c(1.0, 0, 0, 0, 0, 1.0, 0, 1.0, 0.0, 0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 0, 1.0, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 0.8, 1.0, 1.0, 1.0, 1.0),
+  relax_resfinder_spe = c(1.0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.875, 1.0, 1.0, 1.0, 1.0, 1.0, 0.8, 0.0, 1.0, 0.875, 1.0, 1.0, 1.0, 1.0, 0, 1.0, 1.0, 0.9166666666666666, 0, 1.0, 0.6666666666666666, 1.0, 0.25, 1.0, 0.7857142857142857, 1.0, 1.0, 0.9230769230769231, 1.0, 1.0, 1.0)
+)
+
+# Mettre les donnÃ©es en format long
+donnees_long <- tidyr::pivot_longer(donnees, cols = -Genres, names_to = "Source", values_to = "Valeur")
+
+# CrÃ©er le graphique Ã  points
+ggplot(donnees_long, aes(x = Genres, y = Valeur, color = Source, shape = Source)) +
+  geom_point(size = 3) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = "Genres", y = "MÃ©triques", title = "Métriques des tests de sensibilité aux antibiotiques(specificite_relax)") +
+  scale_color_manual(values = c("relax_argannot_spe" = "red", "relax_card_spe" = "blue", "relax_ncbi_spe" = "green", "relax_resfinder_spe" = "purple")) +
+  scale_shape_manual(values = c("relax_argannot_spe" = 1, "relax_card_spe" = 1, "relax_ncbi_spe" = 2, "relax_resfinder_spe" = 2)) +
+  theme(legend.position = "top")
+```
+
+Tests de sensibilité aux antibiotiques(specificite_stricte)
+```{r}
+donnees <- data.frame(
+  Genres = c("Achromobacter", "Acinetobacter", "Actinobacillus", "Aerococcus", "Aeromonas", "Aliarcobacter", "Burkholderia", "Campylobacter", "Citrobacter", "Clostridioides", "Corynebacterium", "Desulfovibrio", "Enterobacter", "Enterococcus", "Escherichia", "Haemophilus", "Helicobacter", "Herbaspirillum", "Klebsiella", "Kluyvera", "Lachnoclostridium","Leclercia", "Lelliottia", "Listeria", "Morganella", "Mycobacterium", "Mycolicibacillus", "Mycolicibacterium", "Neisseria", "Phytobacter", "Pluralibacter","Proteus", "Providencia", "Pseudomonas", "Raoultella", "Salmonella", "Serratia", "Shigella", "Staphylococcus", "Streptococcus", "Stutzerimonas", "Vibrio", "Yersinia"),
+  str_argannot_spe = c(1.0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.9166666666666666, 1.0, 1.0, 1.0, 1.0),
+  str_card_spe = c(1.0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.8888888888888888, 1.0, 0.9090909090909091, 1.0, 0.75, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.8571428571428571, 0.9285714285714286, 0, 1.0, 1.0, 1.0, 1.0, 0.9285714285714286, 1.0, 0.9411764705882353, 0.9166666666666666, 0.9375, 1.0, 1.0, 1.0),
+  str_ncbi_spe = c(1.0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.8, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.8888888888888888, 1.0, 1.0, 1.0, 0.9166666666666666, 1.0, 1.0, 1.0, 1.0),
+  str_resfinder_spe = c(1.0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.8888888888888888, 1.0, 1.0, 1.0, 1.0, 1.0, 0.8, 0.5, 1.0, 0.8888888888888888, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.9285714285714286, 0, 1.0, 0.7142857142857143, 1.0, 0.3333333333333333, 1.0, 0.8235294117647058, 1.0, 1.0, 0.9375, 1.0, 1.0, 1.0)
+)
+
+# Mettre les donnÃ©es en format long
+donnees_long <- tidyr::pivot_longer(donnees, cols = -Genres, names_to = "Source", values_to = "Valeur")
+
+# CrÃ©er le graphique Ã  points
+ggplot(donnees_long, aes(x = Genres, y = Valeur, color = Source, shape = Source)) +
+  geom_point(size = 3) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = "Genres", y = "Métriques", title = "Métriques des tests de sensibilité aux antibiotiques(specificite_stricte)") +
+  scale_color_manual(values = c("str_argannot_spe" = "red", "str_card_spe" = "blue", "str_ncbi_spe" = "green", "str_resfinder_spe" = "purple")) +
+  scale_shape_manual(values = c("str_argannot_spe" = 1, "str_card_spe" = 1, "str_ncbi_spe" = 2, "str_resfinder_spe" = 2)) +
+  theme(legend.position = "top")
+```
+
+
+Tests de sensibilité aux antibiotiques(negative_predictive_value_relax)
+
+```{r}
+donnees <- data.frame(
+  Genres = c("Achromobacter", "Acinetobacter", "Actinobacillus", "Aerococcus", "Aeromonas", "Aliarcobacter", "Burkholderia", "Campylobacter", "Citrobacter", "Clostridioides", "Corynebacterium", "Desulfovibrio", "Enterobacter", "Enterococcus", "Escherichia", "Haemophilus", "Helicobacter", "Herbaspirillum", "Klebsiella", "Kluyvera", "Lachnoclostridium","Leclercia", "Lelliottia", "Listeria", "Morganella", "Mycobacterium", "Mycolicibacillus", "Mycolicibacterium", "Neisseria", "Phytobacter", "Pluralibacter","Proteus", "Providencia", "Pseudomonas", "Raoultella", "Salmonella", "Serratia", "Shigella", "Staphylococcus", "Streptococcus", "Stutzerimonas", "Vibrio", "Yersinia"),
+  relax_argannot_npv = c(0.5, 0, 0, 0, 0, 0.6, 0.8, 0, 0, 1.0, 1.0, 0.5454545454545454, 1.0, 0, 0, 1.0, 0.8, 0.3888888888888889, 0.5, 0.0, 1.0, 1.0, 0, 1.0, 0, 0, 0, 0, 0, 1.0, 0, 0.0, 0, 0.0, 0, 1.0, 0.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0),
+  relax_card_npv = c(0.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.0, 0.5454545454545454, 0, 0, 0, 1.0, 0, 0.3888888888888889, 0, 0, 0, 0, 0, 1.0, 0, 0, 0, 0, 0, 0.0, 0, 1.0, 0.0, 0, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0),
+  relax_ncbi_npv = c(0.5, 0, 0, 0, 0, 1.0, 0.0, 0.3333333333333333, 0, 0, 1.0, 0.5454545454545454, 0.8571428571428571, 0.5, 1.0, 1.0, 0.8, 0.3888888888888889, 0.25, 0.3333333333333333, 0.8, 1.0, 0.5, 1.0, 0, 0.25, 0.0, 1.0, 1.0, 0.7142857142857143, 0, 0.16666666666666666, 1.0, 0.75, 0.5, 0.875, 0.75, 1.0, 1.0, 0.8571428571428571, 1.0, 1.0, 1.0),
+  relax_resfinder_npv = c(0.4, 0.0, 0, 0, 0.0, 0.6666666666666666, 0.8, 0.16666666666666666, 0.25, 1.0, 1.0, 0.5454545454545454, 0.5384615384615384, 0.6, 0.7333333333333333, 1.0, 0.8, 0.3888888888888889, 0.5, 0.0, 0.7333333333333333, 1.0, 0.2857142857142857, 0.8571428571428571, 1.0, 0.5, 0.0, 1.0, 1.0, 0.6470588235294118, 0, 0.09090909090909091, 0.5714285714285714, 0.5384615384615384, 0.6666666666666666, 1.0, 0.8461538461538461, 1.0, 0.7272727272727273, 0.9230769230769231, 1.0, 1.0, 1.0)
+)
+
+# Mettre les donnÃ©es en format long
+donnees_long <- tidyr::pivot_longer(donnees, cols = -Genres, names_to = "Source", values_to = "Valeur")
+
+# CrÃ©er le graphique Ã  points
+ggplot(donnees_long, aes(x = Genres, y = Valeur, color = Source, shape = Source)) +
+  geom_point(size = 3) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = "Genres", y = "Métriques", title = "Métriques des tests de sensibilité aux antibiotiques(negative_predictive_value_relax)") +
+  scale_color_manual(values = c("relax_argannot_npv" = "red", "relax_card_npv" = "blue", "relax_ncbi_npv" = "green", "relax_resfinder_npv" = "purple")) +
+  scale_shape_manual(values = c("relax_argannot_npv" = 1, "relax_card_npv" = 1, "relax_ncbi_npv" = 2, "relax_resfinder_npv" = 2)) +
+  theme(legend.position = "top")
+```
+
+
+tests de sensibilité aux antibiotiques(negative_predictive_value_stricte)
+
+```{r}
+donnees <- data.frame(
+  Genres = c("Achromobacter", "Acinetobacter", "Actinobacillus", "Aerococcus", "Aeromonas", "Aliarcobacter", "Burkholderia", "Campylobacter", "Citrobacter", "Clostridioides", "Corynebacterium", "Desulfovibrio", "Enterobacter", "Enterococcus", "Escherichia", "Haemophilus", "Helicobacter", "Herbaspirillum", "Klebsiella", "Kluyvera", "Lachnoclostridium","Leclercia", "Lelliottia", "Listeria", "Morganella", "Mycobacterium", "Mycolicibacillus", "Mycolicibacterium", "Neisseria", "Phytobacter", "Pluralibacter","Proteus", "Providencia", "Pseudomonas", "Raoultella", "Salmonella", "Serratia", "Shigella", "Staphylococcus", "Streptococcus", "Stutzerimonas", "Vibrio", "Yersinia"),
+  str_argannot_npv = c(0.75, 0, 0, 0, 0, 0.6, 0.8, 1.0, 1.0, 1.0, 1.0, 0.5454545454545454, 1.0, 1.0, 1.0, 1.0, 0.8, 0.3888888888888889, 0.8333333333333334, 0.6666666666666666, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0, 0.5, 1.0, 0.875, 1.0, 1.0, 0.9444444444444444, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0),
+  str_card_npv = c(0.75, 0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5454545454545454, 1.0, 1.0, 1.0, 1.0, 1.0, 0.3888888888888889, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.9285714285714286, 0, 1.0, 0.875, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0),
+  str_ncbi_npv = c(0.75, 0, 0, 0, 0, 1.0, 0.8, 0.3333333333333333, 0, 1.0, 1.0, 0.5454545454545454, 0.9, 0.8333333333333334, 1.0, 1.0, 0.8, 0.3888888888888889, 0.5714285714285714, 0.5, 0.9230769230769231, 1.0, 0.75, 1.0, 1.0, 0.625, 0.3333333333333333, 1.0, 1.0, 0.875, 0, 0.16666666666666666, 1.0, 0.875, 0.8888888888888888, 0.875, 0.9444444444444444, 1.0, 1.0, 0.9411764705882353, 1.0, 1.0, 1.0),
+  str_resfinder_npv = c(0.5, 0.0, 0, 0, 0.0, 0.75, 0.8, 0.16666666666666666, 0.25, 1.0, 1.0, 0.5454545454545454, 0.5714285714285714, 0.7142857142857143, 0.7333333333333333, 1.0, 0.8, 0.3888888888888889, 0.5, 0.5, 0.75, 1.0, 0.375, 0.9, 1.0, 0.8333333333333334, 0.3333333333333333, 1.0, 1.0, 0.6842105263157895, 0, 0.09090909090909091, 0.625, 0.5384615384615384, 0.75, 1.0, 0.875, 1.0, 0.8, 0.9375, 1.0, 1.0, 1.0)
+)
+
+# Mettre les donnÃ©es en format long
+donnees_long <- tidyr::pivot_longer(donnees, cols = -Genres, names_to = "Source", values_to = "Valeur")
+
+# CrÃ©er le graphique Ã  points
+ggplot(donnees_long, aes(x = Genres, y = Valeur, color = Source, shape = Source)) +
+  geom_point(size = 3) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = "Genres", y = "Métriques", title = "Métriques des tests de sensibilité aux antibiotiques(negative_predictive_value_stricte)") +
+  scale_color_manual(values = c("str_argannot_npv" = "red", "str_card_npv" = "blue", "str_ncbi_npv" = "green", "str_resfinder_npv" = "purple")) +
+  scale_shape_manual(values = c("str_argannot_npv" = 1, "str_card_npv" = 1, "str_ncbi_npv" = 2, "str_resfinder_npv" = 2)) +
+  theme(legend.position = "top")
+```
+
+
+Tests de sensibilité aux antibiotiques(accuracy_relax)
+
+```{r}
+donnees <- data.frame(
+  Genres = c("Achromobacter", "Acinetobacter", "Actinobacillus", "Aerococcus", "Aeromonas", "Aliarcobacter", "Burkholderia", "Campylobacter", "Citrobacter", "Clostridioides", "Corynebacterium", "Desulfovibrio", "Enterobacter", "Enterococcus", "Escherichia", "Haemophilus", "Helicobacter", "Herbaspirillum", "Klebsiella", "Kluyvera", "Lachnoclostridium","Leclercia", "Lelliottia", "Listeria", "Morganella", "Mycobacterium", "Mycolicibacillus", "Mycolicibacterium", "Neisseria", "Phytobacter", "Pluralibacter","Proteus", "Providencia", "Pseudomonas", "Raoultella", "Salmonella", "Serratia", "Shigella", "Staphylococcus", "Streptococcus", "Stutzerimonas", "Vibrio", "Yersinia"),
+  relax_argannot_acc = c(0.5, 1.0, 0, 0, 0, 0.6, 0.8, 1.0, 1.0, 1.0, 1.0, 0.5454545454545454, 1.0, 1.0, 1.0, 1.0, 0.8, 0.3888888888888889, 0.5, 0.0, 1.0, 1.0, 0, 1.0, 1.0, 0, 0, 0, 0, 1.0, 0, 0.5, 1.0, 0.0, 0, 1.0, 0.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0),
+  relax_card_acc = c(0.0, 1.0, 0, 0, 0, 0, 0, 1.0, 1.0, 0, 1.0, 0.5454545454545454, 0.0, 1.0, 0.5, 1.0, 0.0, 0.3888888888888889, 1.0, 1.0, 1.0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0, 1.0, 0.0, 1.0, 0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0),
+  relax_ncbi_acc = c(0.5, 1.0, 0, 0, 0, 1.0, 0.0, 0.6, 0.75, 0, 1.0, 0.5454545454545454, 0.8571428571428571, 0.8333333333333334, 1.0, 1.0, 0.8, 0.3888888888888889, 0.3333333333333333, 0.3333333333333333, 0.8333333333333334, 1.0, 0.6666666666666666, 1.0, 0.75, 0.25, 0.0, 1.0, 1.0, 0.7142857142857143, 0, 0.5, 1.0, 0.75, 0.3333333333333333, 0.875, 0.75, 1.0, 0.8, 0.8571428571428571, 1.0, 1.0, 1.0),
+  relax_resfinder_acc = c(0.4, 0.45454545454545453, 0, 0, 0.0, 0.6666666666666666, 0.8, 0.375, 0.7857142857142857, 1.0, 1.0, 0.5454545454545454, 0.6111111111111112, 0.8, 0.7647058823529411, 1.0, 0.8, 0.3888888888888889, 0.5454545454545454, 0.8571428571428571, 0.75, 0.875, 0.5833333333333334, 0.8571428571428571, 1.0, 0.5, 0.0, 1.0, 1.0, 0.6111111111111112, 0, 0.6, 0.6875, 0.5384615384615384, 0.46153846153846156, 1.0, 0.6875, 1.0, 0.75, 0.8666666666666667, 1.0, 1.0, 1.0)
+)
+
+# Mettre les donnÃ©es en format long
+donnees_long <- tidyr::pivot_longer(donnees, cols = -Genres, names_to = "Source", values_to = "Valeur")
+
+# CrÃ©er le graphique Ã  points
+ggplot(donnees_long, aes(x = Genres, y = Valeur, color = Source, shape = Source)) +
+  geom_point(size = 3) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = "Genres", y = "Métriques", title = "Métriques des tests de sensibilité aux antibiotiques(accuracy_relax)") +
+  scale_color_manual(values = c("relax_argannot_acc" = "red", "relax_card_acc" = "blue", "relax_ncbi_acc" = "green", "relax_resfinder_acc" = "purple")) +
+  scale_shape_manual(values = c("relax_argannot_acc" = 1, "relax_card_acc" = 1, "relax_ncbi_acc" = 2, "relax_resfinder_acc" = 2)) +
+  theme(legend.position = "top")
+```
+
+
+
+tests de sensibilité aux antibiotiques(accuracy_stricte)
+```{r}
+donnees <- data.frame(
+  Genres = c("Achromobacter", "Acinetobacter", "Actinobacillus", "Aerococcus", "Aeromonas", "Aliarcobacter", "Burkholderia", "Campylobacter", "Citrobacter", "Clostridioides", "Corynebacterium", "Desulfovibrio", "Enterobacter", "Enterococcus", "Escherichia", "Haemophilus", "Helicobacter", "Herbaspirillum", "Klebsiella", "Kluyvera", "Lachnoclostridium","Leclercia", "Lelliottia", "Listeria", "Morganella", "Mycobacterium", "Mycolicibacillus", "Mycolicibacterium", "Neisseria", "Phytobacter", "Pluralibacter","Proteus", "Providencia", "Pseudomonas", "Raoultella", "Salmonella", "Serratia", "Shigella", "Staphylococcus", "Streptococcus", "Stutzerimonas", "Vibrio", "Yersinia"),
+  str_argannot_acc = c(0.75, 1.0, 0, 0, 0, 0.6, 0.8, 1.0, 1.0, 1.0, 1.0, 0.5454545454545454, 1.0, 1.0, 1.0, 1.0, 0.8, 0.3888888888888889, 0.8333333333333334, 0.6666666666666666, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0, 0.6666666666666666, 1.0, 0.875, 1.0, 1.0, 0.9444444444444444, 1.0, 0.9166666666666666, 1.0, 1.0, 1.0, 1.0),
+  str_card_acc = c(0.75, 1.0, 0, 0, 0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5454545454545454, 0.8888888888888888, 1.0, 0.9166666666666666, 1.0, 0.75, 0.3888888888888889, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.8571428571428571, 0.8666666666666667, 0, 1.0, 0.875, 1.0, 1.0, 0.9285714285714286, 1.0, 0.9411764705882353, 0.9166666666666666, 0.9375, 1.0, 1.0, 1.0),
+  str_ncbi_acc = c(0.75, 1.0, 0, 0, 0, 1.0, 0.8, 0.6, 0.75, 1.0, 1.0, 0.5454545454545454, 0.9, 0.9, 1.0, 1.0, 0.8, 0.3888888888888889, 0.5555555555555556, 0.5, 0.9285714285714286, 1.0, 0.8, 1.0, 0.8, 0.625, 0.3333333333333333, 1.0, 1.0, 0.875, 0, 0.5, 1.0, 0.875, 0.8, 0.875, 0.9444444444444444, 1.0, 0.9166666666666666, 0.9411764705882353, 1.0, 1.0, 1.0),
+  str_resfinder_acc = c(0.5, 0.45454545454545453, 0, 0, 0.0, 0.75, 0.8, 0.375, 0.7857142857142857, 1.0, 1.0, 0.5454545454545454, 0.631578947368421, 0.8333333333333334, 0.7647058823529411, 1.0, 0.8, 0.3888888888888889, 0.5454545454545454, 0.8666666666666667, 0.7647058823529411, 0.8888888888888888, 0.6153846153846154, 0.9, 1.0, 0.8333333333333334, 0.3333333333333333, 1.0, 1.0, 0.65, 0, 0.6, 0.7058823529411765, 0.5384615384615384, 0.5, 1.0, 0.7368421052631579, 1.0, 0.8125, 0.8888888888888888, 1.0, 1.0, 1.0)
+)
+
+# Mettre les donnÃ©es en format long
+donnees_long <- tidyr::pivot_longer(donnees, cols = -Genres, names_to = "Source", values_to = "Valeur")
+
+# CrÃ©er le graphique Ã  points
+ggplot(donnees_long, aes(x = Genres, y = Valeur, color = Source, shape = Source)) +
+  geom_point(size = 3) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = "Genres", y = "Métriques", title = "Métriques des tests de sensibilité aux antibiotiques(accuracy_stricte)") +
+  scale_color_manual(values = c("str_argannot_acc" = "red", "str_card_acc" = "blue", "str_ncbi_acc" = "green", "str_resfinder_acc" = "purple")) +
+  scale_shape_manual(values = c("str_argannot_acc" = 1, "str_card_acc" = 1, "str_ncbi_acc" = 2, "str_resfinder_acc" = 2)) +
+  theme(legend.position = "top")
+```
+
+
+
+

@@ -1,9 +1,10 @@
 ---
 title: "Analyses"
 output: html_document
-date: "2024-05-07"
+date: "2024-05-12"
+author: "DENIS Anaïs, HOTTLET Valentin, PEREZ Lucie"
 ---
-
+package necessaire.
 ```{r}
 
 library(tidyr)
@@ -12,9 +13,9 @@ library(ggplot2)
 library(UpSetR)
 
 ```
-
+Récupération et traitement des données, la variable ``data`` contient nos données brutes et ``data_clean`` contient les données en ne prenant pas en compte les DATA_ERROR ni les NA.
 ```{r}
-data <- read.csv('C:/Users/Valentin/PycharmProjects/Projet-antibio/results/table.csv')
+data <- read.csv('C:/Users/Valentin/PycharmProjects/Projet-antibio/table2.csv')
 
 antibiotiques <- names(data)[4:ncol(data)]
 data_noerror <- data %>%
@@ -28,14 +29,12 @@ data_clean <- data_noerror %>%
 
 ```
 
-
-Tableau de sortie : 
-Nombre de génomes testées 
+Nombre de génomes testés :
 ```{r}
 nombre_genomes <- nrow(data_clean) - 1
 nombre_genomes
 ```
-Nombre d'espèces :
+Nombre de taxon :
 ```{r}
 nombre_especes_uniques <- length(unique(data_clean$taxon_id))
 nombre_especes_uniques
@@ -52,18 +51,24 @@ Nombre de génomes pour chaque taxon :
 comptage_genomes <- aggregate(genome_id ~ taxon_id, data = data_clean, FUN = function(x) length(unique(x)))
 
 names(comptage_genomes) <- c("taxon_id", "nombre_genomes")
-comptage_genomes
+print(comptage_genomes)
 ```
 
+Moyenne et médiane du nombre de genome testés pour chaque taxon :
+```{r}
+# Calculer la moyenne et la médiane
+moyenne <- mean(comptage_genomes$nombre_genomes)
+mediane <- median(comptage_genomes$nombre_genomes)
 
+print(paste("Moyenne :", moyenne))
+print(paste("Médiane :", mediane))
+```
 
-Nombre d'antibiotiques testés pour chaque taxons :
-
+Nombre d'antibiotiques testés pour chaque taxon :
 ```{r}
 #Obtenir la liste des taxons_id différents
 taxons_ids <- unique(data_clean$taxon_id)
 
-# Initialiser un vecteur pour stocker le nombre d'antibiotiques testés pour chaque taxon_id
 nombre_antibiotiques_testes <- numeric(length(taxons_ids))
 
 # Parcourir chaque taxon_id
@@ -76,7 +81,6 @@ for (i in seq_along(taxons_ids)) {
   
   # Parcourir chaque colonne de la 4ème à la dernière
   for (j in 4:ncol(subset_data)) {
-    # Vérifier si au moins un élément de la colonne est différent de NA
     resultats_colonnes[j - 3] <- any(!is.na(subset_data[, j]))
   }
   
@@ -84,27 +88,23 @@ for (i in seq_along(taxons_ids)) {
   nombre_antibiotiques_testes[i] <- sum(resultats_colonnes)
 }
 
-# Créer un data.frame contenant les résultats
 resultats <- data.frame(taxon_id = taxons_ids, nombre_antibiotiques_testes = nombre_antibiotiques_testes)
 
-# Afficher les résultats
 print(resultats)
 ```
 
 
-Moyenne et médiane du nombre d'antibiotiques testés pour chaque taxons
-
+Moyenne et médiane du nombre d'antibiotiques testés pour chaque taxon :
 ```{r}
 # Calculer la moyenne et la médiane
 moyenne <- mean(resultats$nombre_antibiotiques_testes)
 mediane <- median(resultats$nombre_antibiotiques_testes)
 
-# Afficher la moyenne et la médiane
 print(paste("Moyenne :", moyenne))
 print(paste("Médiane :", mediane))
 ```
 
-
+graphique montrant les taxons_id ayant le plus de genomes testés.  
 ```{r}
 comptage_genomes_filtre <- comptage_genomes[comptage_genomes$nombre_genomes > 1,]
 
@@ -122,18 +122,19 @@ ggplot(comptage_genomes_filtre, aes(x = taxon_id, y = nombre_genomes)) +
 
 
 
-
+Graphique présentant les taxons_id les plus testés (=> 20) :
 ```{r}
 resultats_filtres <- resultats[resultats$nombre_antibiotiques_testes >= 20, ]
 # Créer un graphique à barres avec espacement entre les taxons_id
 ggplot(resultats_filtres, aes(x = factor(taxon_id), y = nombre_antibiotiques_testes)) +
   geom_bar(stat = "identity", fill = "skyblue", width = 0.7, ) +
-  labs(x = "taxon_id", y = "Nombre d'antibiotiques testés") +
-  ggtitle("Nombre d'antibiotiques testés par taxon_id") +
+  labs(x = "taxon_id", y = "Nombre de tests réalisés") +
+  ggtitle("Nombre de tests réalisés par taxon_id") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, size = 4))
 ```
-
+Représentation de la susceptibilités des taxon_id contre un antibiotique. (heatmap, =>21 antibiotiques testés)
+Les valeurs de résistance sont normalisées : R (Resistant, Nonsuceptibe), I (Intermediate, Reduced Susceptibility), S (Susceptible, IS, Susceptible-dose dependent)
 ```{r}
 library(tidyr)
 library(dplyr)
@@ -143,7 +144,7 @@ donnees_longues <- pivot_longer(
   cols = all_of(antibiotiques),  
   names_to = "antibiotique",
   values_to = "resultat",
-  values_drop_na = TRUE  # Exclure les NA si vous ne voulez pas les représenter
+  values_drop_na = TRUE  
 )
 
 donnees_longues$taxon_id <- as.character(donnees_longues$taxon_id)
@@ -188,6 +189,8 @@ ggplot(donnees_filtrees, aes(x = antibiotique, y = taxon_id, fill = resultat)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 3), axis.text.y = element_text(size = 4))# Rotation des étiquettes pour la lisibilité
   
 ```
+
+Representation global de la susceptibilitées des taxon_id contre un antibiotique. (heatmap, global)
 ```{r}
 taxons_frequents <- donnees_longues %>%
   group_by(taxon_id) %>%
@@ -209,7 +212,7 @@ ggplot(donnees_filtrees, aes(x = antibiotique, y = taxon_id, fill = resultat)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 3), axis.text.y = element_text(size = 0.1))# Rotation des étiquettes pour la lisibilité
   
 ```
-
+Nombre de données manquantes (DATA_ERROR) dans le fichier de données.
 ```{r}
 all_data <- pivot_longer(
   data,
@@ -224,7 +227,7 @@ total_data_error <- all_data %>%
 print(total_data_error)
 ```
 
-
+Tableau présentant le nombre de DATA_ERROR par taxon_ID
 ```{r}
 data_error_par_taxon <- all_data %>%
   filter(resultat == "DATA_ERROR") %>%
@@ -234,22 +237,13 @@ data_error_par_taxon <- all_data %>%
 print(data_error_par_taxon)
 ```
 
+Moyenne et médiane du nombre de DATA_ERROR pour chaque taxon :
 ```{r}
-data <- read.csv("C:/Users/Valentin/PycharmProjects/Projet-antibio/antibiotiquesV2_db.csv")
-data$Argannot <- as.integer(data$Argannot)
-data$card <- as.integer(data$card)
-data$ncbi <- as.integer(data$ncbi)
-data$resfinder <- as.integer(data$resfinder)
+# Calculer la moyenne et la médiane
+moyenne <- mean(data_error_par_taxon$count)
+mediane <- median(data_error_par_taxon$count)
 
-upset(data)
+print(paste("Moyenne :", moyenne))
+print(paste("Médiane :", mediane))
 ```
 
-```{r}
-data <- read.csv("C:/Users/Valentin/PycharmProjects/Projet-antibio/classV2_db.csv")
-data$Argannot <- as.integer(data$Argannot)
-data$card <- as.integer(data$card)
-data$ncbi <- as.integer(data$ncbi)
-data$resfinder <- as.integer(data$resfinder)
-
-upset(data)
-```
