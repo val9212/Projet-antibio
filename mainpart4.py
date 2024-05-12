@@ -42,7 +42,7 @@ if __name__ == '__main__':
         print(name[e])
         print(liste_antibio_2)
 
-        m = methods.parse_argannot_results("./data/abricate.txt")
+        m = methods.parse_argannot_results("./results/abricate_result.txt")
         z = methods.info_from_results(m)
         genome_objects, antibiotics = Inout.read_file("./data/genome_AMR.txt")
         genus, ids = methods.get_selected_genome("genomelist.txt")
