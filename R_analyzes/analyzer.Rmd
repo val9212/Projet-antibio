@@ -4,7 +4,7 @@ output: html_document
 date: "2024-05-12"
 author: "DENIS Anaïs, HOTTLET Valentin, PEREZ Lucie"
 ---
-package necessaire.
+packages nécessaires:
 ```{r}
 
 library(tidyr)
@@ -15,7 +15,7 @@ library(UpSetR)
 ```
 Récupération et traitement des données, la variable ``data`` contient nos données brutes et ``data_clean`` contient les données en ne prenant pas en compte les DATA_ERROR ni les NA.
 ```{r}
-data <- read.csv('C:/Users/Valentin/PycharmProjects/Projet-antibio/table2.csv')
+data <- read.csv('C:/Users/val92/PycharmProjects/Projet-antibio/results/table.csv')
 
 antibiotiques <- names(data)[4:ncol(data)]
 data_noerror <- data %>%
@@ -34,7 +34,7 @@ Nombre de génomes testés :
 nombre_genomes <- nrow(data_clean) - 1
 nombre_genomes
 ```
-Nombre de taxon :
+Nombre de taxons :
 ```{r}
 nombre_especes_uniques <- length(unique(data_clean$taxon_id))
 nombre_especes_uniques
@@ -54,7 +54,7 @@ names(comptage_genomes) <- c("taxon_id", "nombre_genomes")
 print(comptage_genomes)
 ```
 
-Moyenne et médiane du nombre de genome testés pour chaque taxon :
+Moyenne et médiane du nombre de génomes testés pour chaque taxon :
 ```{r}
 # Calculer la moyenne et la médiane
 moyenne <- mean(comptage_genomes$nombre_genomes)
@@ -104,7 +104,7 @@ print(paste("Moyenne :", moyenne))
 print(paste("Médiane :", mediane))
 ```
 
-graphique montrant les taxons_id ayant le plus de genomes testés.  
+graphique montrant les taxons_id ayant le plus de génomes testés.  
 ```{r}
 comptage_genomes_filtre <- comptage_genomes[comptage_genomes$nombre_genomes > 1,]
 
@@ -133,8 +133,10 @@ ggplot(resultats_filtres, aes(x = factor(taxon_id), y = nombre_antibiotiques_tes
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, size = 4))
 ```
-Représentation de la susceptibilités des taxon_id contre un antibiotique. (heatmap, =>21 antibiotiques testés)
-Les valeurs de résistance sont normalisées : R (Resistant, Nonsuceptibe), I (Intermediate, Reduced Susceptibility), S (Susceptible, IS, Susceptible-dose dependent)
+
+Représentation de la susceptibilité des taxon_id contre un antibiotique. (heatmap, =>21 antibiotiques testés).
+
+Les valeurs de résistance sont normalisées : R (Resistant, Non susceptible), I (Intermediate, Reduced Susceptibility), S (Susceptible, IS, Susceptible-dose dependent)
 ```{r}
 library(tidyr)
 library(dplyr)
@@ -190,7 +192,7 @@ ggplot(donnees_filtrees, aes(x = antibiotique, y = taxon_id, fill = resultat)) +
   
 ```
 
-Representation global de la susceptibilitées des taxon_id contre un antibiotique. (heatmap, global)
+Représentation globale de la susceptibilité des taxon_id contre un antibiotique. (heatmap, global)
 ```{r}
 taxons_frequents <- donnees_longues %>%
   group_by(taxon_id) %>%
@@ -212,7 +214,9 @@ ggplot(donnees_filtrees, aes(x = antibiotique, y = taxon_id, fill = resultat)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 3), axis.text.y = element_text(size = 0.1))# Rotation des étiquettes pour la lisibilité
   
 ```
+
 Nombre de données manquantes (DATA_ERROR) dans le fichier de données.
+
 ```{r}
 all_data <- pivot_longer(
   data,
